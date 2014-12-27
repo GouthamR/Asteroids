@@ -11,6 +11,7 @@ private:
     std::vector<Object*> objects;
 public:
     World(const int &numObjects);
+    ~World();
     void add(Object *object);
     void handleAllCollisions();
 };

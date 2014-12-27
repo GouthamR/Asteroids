@@ -24,9 +24,11 @@ void CircleObject::handleCollision(Object *other)
 void CircleObject::handleCollision(CircleObject *other)
 {
     double intersect = this->getIntersect(other);
+    std::cout << "intersect = " << intersect << std::endl;
     if(intersect <= 0)
         return;
     //else, is colliding:
+    std::cout << "handling circle collision" << std::endl;
 
     double moveDist = intersect/2 + 1; // for each circle. adding 1 to make sure it moves out of collision.
 
@@ -41,13 +43,18 @@ void CircleObject::handleCollision(CircleObject *other)
     }
     else // if at least one is moving
     {
+        double increment = 0;
         do
         {
-            this->moveBackward(moveDist);
-            other->moveBackward(moveDist);
+            this->moveBackward(moveDist + increment);
+            other->moveBackward(moveDist + increment);
+            ++increment;
         }
         while(this->getIntersect(other) > 0);
     }
+
+    this->setVelocityTo0();
+    other->setVelocityTo0();
 }
 
 bool CircleObject::isColliding(Object *other)

@@ -9,6 +9,14 @@ Phys::Vector *Object::getDistanceVector(Object *other)
     return new Phys::Vector(other->xPos - this->xPos, other->yPos - this->yPos);
 }
 
+//void Object::temp_velocityIncrement(const double &increment, const double &theta)
+//{
+//    Phys::Vector *incrementVelocity = Phys::Vector::createPolar(increment, theta);
+//    *velocity += *incrementVelocity;
+//    delete incrementVelocity;
+//    velocity->roundTo0();
+//}
+
 Object::Object(const int &xPos, const int &yPos)
     : xPos(xPos)
     , yPos(yPos)
@@ -17,6 +25,7 @@ Object::Object(const int &xPos, const int &yPos)
 
 Object::~Object()
 {
+    std::cout << "Destruct Object" << std::endl;
     delete velocity;
 }
 
@@ -24,6 +33,21 @@ void Object::moveBy(const Phys::Vector *moveVector)
 {
     xPos += moveVector->getX();
     yPos += moveVector->getY();
+}
+
+void Object::moveByVelocity(float secondsElapsed)
+{
+    Phys::Vector *dist = Phys::Vector::createPolar(velocity->getR()*secondsElapsed, velocity->getTheta());
+    moveBy(dist);
+    delete dist;
+}
+
+void Object::incrementVelocity(const double &increment, const double &theta)
+{
+    Phys::Vector *incrementVelocity = Phys::Vector::createPolar(increment, theta);
+    *velocity += *incrementVelocity;
+    delete incrementVelocity;
+    velocity->roundTo0();
 }
 
 double Object::distanceTo(Object *other)
@@ -55,6 +79,11 @@ void Object::moveBackward(const int &distance)
 double Object::getVelocityR()
 {
     return velocity->getR();
+}
+
+void Object::setVelocityTo0()
+{
+    velocity->setR(0);
 }
 
 

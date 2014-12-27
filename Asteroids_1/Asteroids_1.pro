@@ -7,7 +7,10 @@ SOURCES += main.cpp \
     circleobject.cpp \
     object.cpp \
     vector.cpp \
-    world.cpp
+    world.cpp \
+    worlddrawer.cpp \
+    objectdrawer.cpp \
+    circledrawer.cpp
 
 LIBS += -LC:\Users\Goutham\Documents\SFML_Projects\SFML-2.1\lib
 
@@ -21,4 +24,7 @@ HEADERS += \
     circleobject.h \
     object.h \
     vector.h \
-    world.h
+    world.h \
+    worlddrawer.h \
+    objectdrawer.h \
+    circledrawer.h

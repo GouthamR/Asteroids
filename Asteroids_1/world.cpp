@@ -2,10 +2,24 @@
 
 #include "object.h"
 
+#include <iostream>
+
 World::World(const int &numObjects)
     : objects(std::vector<Object*>())
 {
     objects.reserve(numObjects);
+}
+
+World::~World()
+{
+    std::cout << "Destruct World: Do nothing." << std::endl;
+
+//    for(std::vector<Object*>::iterator iter = objects.begin();
+//        iter != objects.end(); ++iter)
+//    {
+//        delete (*iter);
+//    }
+//    objects.clear();
 }
 
 void World::add(Object *object)
