@@ -6,8 +6,8 @@
 
 #include <iostream>
 
-DrawableWorld::DrawableWorld(const int &numObjects)
-    : World(numObjects)
+DrawableWorld::DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap)
+    : World(numObjects,width,height, wrap)
     , drawableObjects(std::vector<DrawableObject*>())
 {}
 

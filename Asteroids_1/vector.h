@@ -15,15 +15,14 @@ class Vector
 {
 private:
     const static double THETA_MIN, THETA_MAX;
-    double x,y;
-    static double getRandom(const double &min, const double &max);
+    double r,t; // r = magnitude, t = theta = angle
+    static double getR(const double &x, const double &y);
+    static double getT(const double &x, const double &y);
 public:
     const static double THETA_QUARTER, THETA_RIGHT, THETA_UP, THETA_LEFT, THETA_DOWN;
     Vector();
     Vector(const double &x, const double &y);
-    static Vector* createPolar(const double &r, const double &theta);
-    static Vector* createRandomAngle(const double &r);
-    Vector* getReversed();
+    static Vector* createPolar(const double &magnitude, const double &angle);
     Vector &operator += (const Vector &other);
     double getX() const;
     double getY() const;
@@ -33,8 +32,6 @@ public:
     void setY(const double &y);
     void setR(const double &r);
     void setTheta(const double &theta);
-    void roundTo0();
-    void roundToInt();
 };
 
 } //namespace Phys

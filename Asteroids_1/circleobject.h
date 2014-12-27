@@ -6,7 +6,7 @@
 class CircleObject : public virtual Object
 {
 private:
-    int radius;
+    double radius;
     double getIntersect(CircleObject *other);
     //******************************************************************************
     //  Source: http://www.plasmaphysics.org.uk/programs/coll2d_cpp.htm
@@ -23,12 +23,14 @@ private:
                      double x1, double y1, double x2, double y2,
                      double& vx1, double& vy1, double& vx2, double& vy2);
 public:
-    CircleObject(const int &xPos, const int &yPos, const int &radius);
-    int getRadius() const { return radius; }
+    CircleObject(const double &xPos, const double &yPos, const double &radius);
+    double getRadius() const;
     virtual void handleCollision(Object *other);
     virtual void handleCollision(CircleObject *other);
     virtual bool isColliding(Object *other);
     virtual bool isColliding(CircleObject *other);
+    virtual double getWidth();
+    virtual double getHeight();
 };
 
 #endif // CIRCLEOBJECT_H

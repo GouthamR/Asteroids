@@ -62,10 +62,15 @@ void CircleObject::collision2D(double m1, double m2, double R,
      return;
 }
 
-CircleObject::CircleObject(const int &xPos, const int &yPos, const int &radius)
+CircleObject::CircleObject(const double &xPos, const double &yPos, const double &radius)
     : Object(xPos, yPos)
     , radius(radius)
 {}
+
+double CircleObject::getRadius() const
+{
+    return radius;
+}
 
 void CircleObject::handleCollision(Object *other)
 {
@@ -92,7 +97,7 @@ void CircleObject::handleCollision(CircleObject *other)
         double vXT = this->getVelocity().getX();
         double vYT = this->getVelocity().getY();
 
-        printf("before: vXO=%.2f,vYO=%.2f,vXT=%.2f,vYT=%.2f\n",vXO, vYO, vXT, vYT);
+//        printf("before: vXO=%.2f,vYO=%.2f,vXT=%.2f,vYT=%.2f\n",vXO, vYO, vXT, vYT);
 
         collision2D(other->getRadius(),this->getRadius(),1,
                     other->getX(),other->getY(),
@@ -100,10 +105,10 @@ void CircleObject::handleCollision(CircleObject *other)
                     vXO,vYO,
                     vXT,vYT);
 
-        printf("after : vXO=%.2f,vYO=%.2f,vXT=%.2f,vYT=%.2f\n",vXO, vYO, vXT, vYT);
+//        printf("after : vXO=%.2f,vYO=%.2f,vXT=%.2f,vYT=%.2f\n",vXO, vYO, vXT, vYT);
 
-        other->setVelocity(round(vXO),round(vYO));
-        this->setVelocity(round(vXT),round(vYT));
+        other->setVelocityXY(round(vXO),round(vYO));
+        this->setVelocityXY(round(vXT),round(vYT));
     }
 }
 
@@ -115,4 +120,14 @@ bool CircleObject::isColliding(Object *other)
 bool CircleObject::isColliding(CircleObject *other)
 {
     return this->getIntersect(other) > 0;
+}
+
+double CircleObject::getWidth()
+{
+    return radius * 2;
+}
+
+double CircleObject::getHeight()
+{
+    return getWidth();
 }

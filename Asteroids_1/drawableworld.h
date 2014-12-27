@@ -15,7 +15,7 @@ private:
     std::vector<DrawableObject*> drawableObjects;
     // keep reference to window instead of passing by param to drawAll.
 public:
-    DrawableWorld(const int &numObjects);
+    DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap);
     ~DrawableWorld();
     void add(DrawableObject *drawable);
     void drawAll(sf::RenderWindow *window);

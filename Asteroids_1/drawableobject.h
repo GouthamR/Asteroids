@@ -15,7 +15,7 @@ class DrawableObject : public virtual Object
 protected:
     sf::Vector2f *getWindowCoordinatesPosition(sf::RenderWindow *window);
 public:
-    DrawableObject(const int &xPos, const int &yPos);
+    DrawableObject(const double &xPos, const double &yPos);
     virtual void draw(sf::RenderWindow *window)=0;
 };
 

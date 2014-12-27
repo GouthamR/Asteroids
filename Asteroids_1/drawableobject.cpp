@@ -8,6 +8,6 @@ sf::Vector2f *DrawableObject::getWindowCoordinatesPosition(sf::RenderWindow *win
     return new sf::Vector2f(getX(), window->getSize().y - getY());
 }
 
-DrawableObject::DrawableObject(const int &xPos, const int &yPos)
+DrawableObject::DrawableObject(const double &xPos, const double &yPos)
     : Object(xPos, yPos)
 {}

@@ -2,39 +2,37 @@
 #define OBJECT_H
 
 #include <iosfwd>
+#include "vector.h"
 
-namespace Phys { class Vector; }
 class CircleObject;
+class DrawableAsteroid;
+class DrawableSpaceship;
 
 class Object
 {
 private:
-    int xPos, yPos;
-    Phys::Vector *velocity;
-//    Phys::Vector *getDistanceVector(Object *other);
-//protected:
-//    void moveBy(const Phys::Vector *moveVector);
-//    double distanceTo(Object *other);
-//    double angleTo(Object *other);
-//    void moveBackward(const int &distance);
-//    double getVelocityR();
-//    void setVelocityTo0();
+    double xPos, yPos;
+    Phys::Vector velocity;
 public:
-    Object(const int &xPos, const int &yPos);
+    Object(const double &xPos, const double &yPos);
     virtual ~Object();
-//    void moveByVelocity(float secondsElapsed);
-//    void incrementVelocity(const double &increment, const double &theta);
     virtual void handleCollision(Object *other) = 0;
     virtual void handleCollision(CircleObject *other) = 0;
+    virtual void handleCollision(DrawableAsteroid *other) = 0;
+    virtual void handleCollision(DrawableSpaceship *other) = 0;
     virtual bool isColliding(Object *other) = 0;
     virtual bool isColliding(CircleObject *other) = 0;
-    int getX() const;
-    void setX(const int &x);
-    int getY() const;
-    void setY(const int &y);
+    virtual double getWidth() = 0;
+    virtual double getHeight() = 0;
+    double getX() const;
+    void setX(const double &x);
+    double getY() const;
+    void setY(const double &y);
     friend std::ostream &operator<<(std::ostream &os, const Object &object);
     Phys::Vector getVelocity() const;
-    void setVelocity(const int &x, const int &y);
+    void setVelocityXY(const double &x, const double &y);
+    void setVelocityPolar(const double &speed, const double &angle);
+    void setVelocity(const Phys::Vector newVelocity);
 };
 
 #endif // OBJECT_H

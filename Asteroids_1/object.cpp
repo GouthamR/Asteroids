@@ -9,107 +9,58 @@
 //    return new Phys::Vector(other->xPos - this->xPos, other->yPos - this->yPos);
 //}
 
-Object::Object(const int &xPos, const int &yPos)
+Object::Object(const double &xPos, const double &yPos)
     : xPos(xPos)
     , yPos(yPos)
-    , velocity(new Phys::Vector())
+    , velocity()
 {}
 
 Object::~Object()
 {
-    std::cout << "Destruct Object" << std::endl;
-    delete velocity;
+    std::cout << "Destruct Object: do nothing" << std::endl;
 }
 
-int Object::getX() const
+double Object::getX() const
 {
     return xPos;
 }
 
-void Object::setX(const int &x)
+void Object::setX(const double &x)
 {
     xPos = x;
 }
 
-int Object::getY() const
+double Object::getY() const
 {
     return yPos;
 }
 
-void Object::setY(const int &y)
+void Object::setY(const double &y)
 {
     yPos = y;
 }
 
-// ok?
 Phys::Vector Object::getVelocity() const
 {
-    return *velocity;
+    return velocity;
 }
 
-void Object::setVelocity(const int &x, const int &y)
+void Object::setVelocityXY(const double &x, const double &y)
 {
-    velocity->setX(x);
-    velocity->setY(y);
+    velocity.setX(x);
+    velocity.setY(y);
 }
 
-//void Object::moveBy(const Phys::Vector *moveVector)
-//{
-//    xPos += moveVector->getX();
-//    yPos += moveVector->getY();
-//}
+void Object::setVelocityPolar(const double &speed, const double &angle)
+{
+    velocity.setR(speed);
+    velocity.setTheta(angle);
+}
 
-//void Object::moveByVelocity(float secondsElapsed)
-//{
-//    Phys::Vector *dist = Phys::Vector::createPolar(velocity->getR()*secondsElapsed, velocity->getTheta());
-//    moveBy(dist);
-//    delete dist;
-//}
-
-//void Object::incrementVelocity(const double &increment, const double &theta)
-//{
-//    Phys::Vector *incrementVelocity = Phys::Vector::createPolar(increment, theta);
-//    *velocity += *incrementVelocity;
-//    delete incrementVelocity;
-//    velocity->roundTo0();
-//}
-
-//double Object::distanceTo(Object *other)
-//{
-//    Phys::Vector *distVec = this->getDistanceVector(other);
-//    double dist = distVec->getR();
-//    delete distVec;
-//    return dist;
-//}
-
-//double Object::angleTo(Object *other)
-//{
-//    Phys::Vector *distVec = getDistanceVector(other);
-//    double angle = distVec->getTheta();
-//    delete distVec;
-//    return angle;
-//}
-
-//void Object::moveBackward(const int &distance)
-//{
-//    Phys::Vector* backwardVelocity = velocity->getReversed();
-//    backwardVelocity->setR(distance);
-
-//    moveBy(backwardVelocity);
-
-//    delete backwardVelocity;
-//}
-
-//double Object::getVelocityR()
-//{
-//    return velocity->getR();
-//}
-
-//void Object::setVelocityTo0()
-//{
-//    velocity->setR(0);
-//}
-
+void Object::setVelocity(const Phys::Vector newVelocity)
+{
+    velocity = newVelocity; // works?
+}
 
 std::ostream &operator<<(std::ostream &os, const Object &object)
 {

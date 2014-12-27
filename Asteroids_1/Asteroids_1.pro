@@ -8,10 +8,11 @@ SOURCES += main.cpp \
     object.cpp \
     vector.cpp \
     world.cpp \
-    drawablecircleobject.cpp \
     drawableworld.cpp \
     drawableobject.cpp \
-    drawableasteroid.cpp
+    drawableasteroid.cpp \
+    drawableimageobject.cpp \
+    drawablespaceship.cpp
 
 LIBS += -LC:\Users\Goutham\Documents\SFML_Projects\SFML-2.1\lib
 
@@ -26,7 +27,8 @@ HEADERS += \
     object.h \
     vector.h \
     world.h \
-    drawablecircleobject.h \
     drawableworld.h \
     drawableobject.h \
-    drawableasteroid.h
+    drawableasteroid.h \
+    drawableimageobject.h \
+    drawablespaceship.h

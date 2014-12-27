@@ -1,7 +1,8 @@
 #ifndef DRAWABLEASTEROID_H
 #define DRAWABLEASTEROID_H
 
-#include "drawablecircleobject.h"
+#include "circleobject.h"
+#include "drawableimageobject.h"
 
 namespace sf
 {
@@ -9,15 +10,15 @@ namespace sf
     class Texture;
 }
 
-class DrawableAsteroid : public DrawableCircleObject
+class DrawableSpaceship;
+
+class DrawableAsteroid : public DrawableImageObject, public CircleObject
 {
-private:
-    sf::Sprite *sprite;
-    sf::Texture *texture;
 public:
-    DrawableAsteroid(const int &xPos, const int &yPos, const int &radius);
-    ~DrawableAsteroid();
-    virtual void draw(sf::RenderWindow *window); // have client load image to circleobject, pass in there. OR rename this class to drawablecircleimageobject
+    DrawableAsteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture);
+    virtual void handleCollision(CircleObject *other);
+    virtual void handleCollision(DrawableAsteroid *other);
+    virtual void handleCollision(DrawableSpaceship *other);
 };
 
 #endif // DRAWABLEASTEROID_H

@@ -9,13 +9,15 @@ class World
 {
 private:
     std::vector<Object*> objects;
+    int width, height;
+    bool wrap;
 protected:
     void add(Object *object);
 public:
-    World(const int &numObjects);
+    World(const int &numObjects, const int &width, const int &height, bool wrap);
     ~World();
     void handleAllCollisions();
-    void moveAllByVelocity(float elapsedTime);
+    void moveAllByVelocity(float elapsedTimeSeconds);
 };
 
 #endif // WORLD_H

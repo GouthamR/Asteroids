@@ -2,8 +2,6 @@
 
 #include <cmath>
 #include <iostream>
-#include <stdlib.h>   // srand, rand
-#include <time.h>
 
 using namespace Phys;
 
@@ -15,36 +13,32 @@ const double Vector::THETA_UP = Vector::THETA_QUARTER;
 const double Vector::THETA_LEFT = Vector::THETA_QUARTER*2;
 const double Vector::THETA_DOWN = Vector::THETA_QUARTER*3;
 
-double Vector::getRandom(const double &min, const double &max)
+double Vector::getR(const double &x, const double &y)
 {
-    srand(time(NULL));
-    double fraction = (double)rand() / RAND_MAX;
-    return fraction * (max - min) + min;
+    return sqrt(pow(x,2) + pow(y,2));
+}
+
+double Vector::getT(const double &x, const double &y)
+{
+    return atan2(y,x);
 }
 
 Vector::Vector()
-    : x(0)
-    , y(0)
+    : r(0)
+    , t(0)
 {}
 
 Vector::Vector(const double &x, const double &y)
-    : x(x)
-    , y(y)
+    : r(getR(x,y))
+    , t(getT(x,y))
 {}
 
-Vector* Vector::createPolar(const double &r, const double &theta)
+Vector* Vector::createPolar(const double &magnitude, const double &angle)
 {
-    return new Vector(r*cos(theta),r*sin(theta));
-}
-
-Vector *Vector::createRandomAngle(const double &r)
-{
-    return createPolar(r, getRandom(THETA_MIN, THETA_MAX));
-}
-
-Vector *Vector::getReversed()
-{
-    return new Vector(-x, -y);
+    Vector *vec = new Vector();
+    vec->setR(magnitude);
+    vec->setTheta(angle);
+    return vec;
 }
 
 Vector &Vector::operator +=(const Vector &other)
@@ -57,105 +51,46 @@ Vector &Vector::operator +=(const Vector &other)
 
 inline double Vector::getX() const
 {
-    return x;
+    return r*cos(t);
 }
 
 inline double Vector::getY() const
 {
-    return y;
+    return r*sin(t);
 }
 
-inline double Vector::getR() const
+double Vector::getR() const // can't inline this.
 {
-    return sqrt(pow(x,2) + pow(y,2));
+    return r;
 }
 
-inline double Vector::getTheta() const
+double Vector::getTheta() const
 {
-    return atan2(y,x);
+    return t;
 }
 
 void Vector::setX(const double &x)
 {
-    this->x = x;
+    double y = getY();
+    r = getR(x,y);
+    t = getT(x,y);
 }
 
 void Vector::setY(const double &y)
 {
-    this->y = y;
+    double x = getX();
+    r = getR(x,y);
+    t = getT(x,y);
 }
 
 void Vector::setR(const double &r)
 {
-   double oldR = getR();
-
-   if(oldR == 0)
-   {
-       double theta = getTheta();
-       x = r*cos(theta);
-       y = r*sin(theta);
-   }
-   else
-   {
-       x *= r/oldR;
-       y *= r/oldR;
-   }
+    this->r = r;
 }
 
 void Vector::setTheta(const double &theta)
 {
-    double rangedTheta = fmod(theta, THETA_MAX); // range: [0, THETA,MAX)
-
-    double r = getR();
-
-    if(r == 0)
-        std::cout << "UNRELIABLE OPERATION: setTheta on 0 vector." << std::endl;
-
-    if(fmod(rangedTheta, THETA_QUARTER) == 0) // if quadrantal angle
-    {
-        if(rangedTheta == 0) // right
-        {
-            x = r;
-            y = 0;
-        }
-        else if(rangedTheta == THETA_QUARTER) // up
-        {
-            x = 0;
-            y = r;
-        }
-        else if(rangedTheta == THETA_QUARTER * 2) // left
-        {
-            x = -r;
-            y = 0;
-        }
-        else // down
-        {
-            x = 0;
-            y = -r;
-        }
-    }
-    else
-    {
-        x = r*cos(rangedTheta);
-        y = r*sin(rangedTheta);
-    }
-}
-
-void Vector::roundTo0()
-{
-    // rounds to 0 if less than EPSILON, to prevent movements from values that should be 0
-    const double EPSILON = 0.5;
-
-    if(abs(getX()) < EPSILON)
-        setX(0);
-    if(abs(getY()) < EPSILON)
-        setY(0);
-}
-
-void Vector::roundToInt()
-{
-    setX(round(getX()));
-    setY(round(getY()));
+    this->t = fmod(theta, THETA_MAX); // range: [0, THETA,MAX)
 }
 
 std::ostream &operator<<(std::ostream &os, const Vector &vector)

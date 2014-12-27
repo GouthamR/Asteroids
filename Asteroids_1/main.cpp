@@ -5,37 +5,45 @@
 #include "circleobject.h"
 #include "vector.h"
 #include "drawableworld.h"
-#include "drawablecircleobject.h"
 #include "drawableasteroid.h"
+#include "drawablespaceship.h"
 
 #include <iostream>
 #include <cmath>
 
-// Memory leaks possible - convert raw pointers to smart pointers
-
 int main()
 {
-//    const double MOVE_SPEED = 20;
+    const double MOVE_SPEED = 5, ROTATION_SPEED = M_PI/20;
     const double FRAMES_PER_SECOND = 60;
+    const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
     const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
-    DrawableWorld *worldDrawer = new DrawableWorld(3);
+    DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 
-    DrawableAsteroid *circle = new DrawableAsteroid(WINDOW_WIDTH/5,0,5);
-    circle->setVelocity(2,2);
-    worldDrawer->add(circle); // circle will be deleted by worlddrawer
+    // (textures will be deleted by sprites?
+    sf::Texture *asteroidTexture = new sf::Texture();
+    sf::Texture *spaceshipTexture = new sf::Texture();
+    if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png"))
+    {
+        std::cout << "ERROR: Unable to load images!" << std::endl;
+        return 1;
+    }
 
-//    CircleObject *asteroidCircle = new CircleObject(WINDOW_WIDTH,0, 20); // will be deleted by drawer
-//    asteroidCircle->setVelocity(-2, 2);
-//    worldDrawer->add(new CircleDrawer(asteroidCircle)); // circledrawer will be deleted by worlddrawer
-    DrawableAsteroid *asteroidCircle = new DrawableAsteroid(WINDOW_WIDTH,0, 20);
-    asteroidCircle->setVelocity(-2,2);
-    worldDrawer->add(asteroidCircle); // circle will be deleted by worlddrawer
+    DrawableSpaceship *spaceship = new DrawableSpaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
+    spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
+    worldDrawer->add(spaceship);
 
-    sf::Clock clock;
+    for (int i = 0; i < 1; ++i)
+    {
+        DrawableAsteroid *asteroid = new DrawableAsteroid(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
+        asteroid->setVelocityXY(0,100);
+        worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
+    }
+
+    sf::Clock frameRateClock, physClock;
     while (window->isOpen())
     {
         sf::Event event;
@@ -50,46 +58,48 @@ int main()
             {
                 switch (event.key.code)
                 {
-//                    case sf::Keyboard::Up:
-//                        circleObject->incrementVelocity(MOVE_SPEED, Phys::Vector::THETA_UP);
-//                        break;
-//                    case sf::Keyboard::Down:
-//                        circleObject->incrementVelocity(MOVE_SPEED, Phys::Vector::THETA_DOWN);
-//                        break;
-//                    case sf::Keyboard::Left:
-//                        circleObject->incrementVelocity(MOVE_SPEED, Phys::Vector::THETA_LEFT);
-//                        break;
-//                    case sf::Keyboard::Right:
-//                        circleObject->incrementVelocity(MOVE_SPEED, Phys::Vector::THETA_RIGHT);
-//                        break;
+                    case sf::Keyboard::Up:
+                        spaceship->accelerate(MOVE_SPEED);
+//                        spaceship->setY(spaceship->getY() + 0.5);
+                        break;
+                    case sf::Keyboard::Down:
+                        break;
+                    case sf::Keyboard::Left:
+                        spaceship->rotate(ROTATION_SPEED);
+                        break;
+                    case sf::Keyboard::Right:
+                        spaceship->rotate(-ROTATION_SPEED);
+                        break;
                     default:
                         break;
                 }
             }
         }
 
-        worldDrawer->moveAllByVelocity(clock.getElapsedTime().asSeconds());
-
-        worldDrawer->handleAllCollisions();
+        if(physClock.getElapsedTime().asSeconds() >= 1/PHYS_FRAMES_PER_SECOND)
+        {
+            worldDrawer->moveAllByVelocity(physClock.getElapsedTime().asSeconds());
+            worldDrawer->handleAllCollisions();
+            physClock.restart();
+        }
 
         window->clear();
         worldDrawer->drawAll(window);
-
         window->display();
 
-        sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - (clock.getElapsedTime().asSeconds()));
-//        std::cout << "sleep = " << sleepTime.asSeconds() << std::endl;
+        sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - (frameRateClock.getElapsedTime().asSeconds()));
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
 
-        clock.restart();
+        frameRateClock.restart();
     }
 
     std::cout << "Ending." << std::endl;
 
     delete window;
     delete worldDrawer;
+//    delete asteroidTexture;
+//    delete spaceshipTexture;
 
     return 0;
 }
-
