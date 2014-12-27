@@ -4,14 +4,6 @@
 #include "circleobject.h"
 #include "drawableimageobject.h"
 
-namespace sf
-{
-    class Sprite;
-    class Texture;
-}
-
-class Asteroid;
-
 class Spaceship : public DrawableImageObject, public CircleObject
 {
 private:
@@ -22,12 +14,7 @@ public:
     void rotate(const double &angle);
     void accelerate(const double &magnitude);
     void incrementCollisions();
-    virtual void handleCollision(Object *second);
-    virtual void handleCollision(Asteroid *first);
-    virtual void handleCollision(Spaceship *first);
-    virtual bool isColliding(Object *second);
-    virtual bool isColliding(Asteroid *first);
-    virtual bool isColliding(Spaceship *first);
+    #include "DispatchFnDefs.txt"
     virtual void draw(sf::RenderWindow *window);
 };
 

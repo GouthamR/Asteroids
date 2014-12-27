@@ -1,6 +1,7 @@
 #include "spaceship.h"
 
 #include "vector.h"
+#include "ufo.h"
 #include<SFML/Graphics/Sprite.hpp>
 #include <string>
 
@@ -34,7 +35,7 @@ void Spaceship::incrementCollisions()
         case 1: color = sf::Color::Yellow; break;
         case 2: color = sf::Color::Magenta; break;
         case 3: color = sf::Color::Red; break;
-        default: color = sf::Color::White; break;
+        default: color = sf::Color::Blue; break;
     }
     sprite->setColor(color);
 }
@@ -53,7 +54,11 @@ void Spaceship::handleCollision(Asteroid *first)
 void Spaceship::handleCollision(Spaceship *first)
 {
     // SHOULD NEVER BE CALLED
-    this->handleCircleCollision((CircleObject*)first);
+}
+
+void Spaceship::handleCollision(Ufo *first)
+{
+    first->handleCollision(this);
 }
 
 bool Spaceship::isColliding(Object *second)
@@ -67,6 +72,11 @@ bool Spaceship::isColliding(Asteroid *first)
 }
 
 bool Spaceship::isColliding(Spaceship *first)
+{
+    return false;
+}
+
+bool Spaceship::isColliding(Ufo *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }

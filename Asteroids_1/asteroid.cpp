@@ -30,6 +30,11 @@ void Asteroid::handleCollision(Spaceship *first)
     this->handleCircleCollision((CircleObject*)first);
 }
 
+void Asteroid::handleCollision(Ufo *first)
+{
+    // do nothing.
+}
+
 bool Asteroid::isColliding(Object *second)
 {
     return second->isColliding(this);
@@ -43,4 +48,9 @@ bool Asteroid::isColliding(Asteroid *first)
 bool Asteroid::isColliding(Spaceship *first)
 {
     return this->isCircleColliding((CircleObject*)first);
+}
+
+bool Asteroid::isColliding(Ufo *first)
+{
+    return false;
 }

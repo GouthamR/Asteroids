@@ -7,6 +7,7 @@
 class CircleObject;
 class Asteroid;
 class Spaceship;
+class Ufo;
 
 class Object
 {
@@ -19,9 +20,11 @@ public:
     virtual void handleCollision(Object *second) = 0;
     virtual void handleCollision(Asteroid *first) = 0;
     virtual void handleCollision(Spaceship *first) = 0;
+    virtual void handleCollision(Ufo *first) = 0;
     virtual bool isColliding(Object *second) = 0;
     virtual bool isColliding(Asteroid *first) = 0;
     virtual bool isColliding(Spaceship *first) = 0;
+    virtual bool isColliding(Ufo *first) = 0;
     virtual double getWidth() = 0;
     virtual double getHeight() = 0;
     double getX() const;

@@ -7,6 +7,7 @@
 #include "drawableworld.h"
 #include "asteroid.h"
 #include "spaceship.h"
+#include "ufo.h"
 
 #include <iostream>
 #include <cmath>
@@ -26,7 +27,9 @@ int main()
     // (textures will be deleted by sprites?
     sf::Texture *asteroidTexture = new sf::Texture();
     sf::Texture *spaceshipTexture = new sf::Texture();
-    if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png"))
+    sf::Texture *ufoTexture = new sf::Texture();
+    if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png")
+           || !ufoTexture->loadFromFile("ufo.png"))
     {
         std::cout << "ERROR: Unable to load images!" << std::endl;
         return 1;
@@ -42,6 +45,9 @@ int main()
         asteroid->setVelocityXY(0,100);
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }
+
+    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,ufoTexture);
+    worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock;
     while (window->isOpen())

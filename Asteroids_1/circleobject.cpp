@@ -72,8 +72,9 @@ double CircleObject::getRadius() const
     return radius;
 }
 
-void CircleObject::handleCircleCollision(CircleObject *other)
+void CircleObject::handleCircleCollision(double thisMass, double otherMass, CircleObject *other)
 {
+    // redundant from isColliding? Remove isColliding-similar code altogether, assuming that it is colliding.
     double xDist = this->getX() - other->getX();
     double yDist = this->getY() - other->getY();
     double angle = atan2(yDist, xDist); // from other to this
@@ -94,7 +95,7 @@ void CircleObject::handleCircleCollision(CircleObject *other)
 
 //        printf("before: vXO=%.2f,vYO=%.2f,vXT=%.2f,vYT=%.2f\n",vXO, vYO, vXT, vYT);
 
-        collision2D(other->getRadius(),this->getRadius(),1,
+        collision2D(otherMass,thisMass,1,
                     other->getX(),other->getY(),
                     this->getX(),this->getY(),
                     vXO,vYO,
@@ -105,6 +106,11 @@ void CircleObject::handleCircleCollision(CircleObject *other)
         other->setVelocityXY(round(vXO),round(vYO));
         this->setVelocityXY(round(vXT),round(vYT));
     }
+}
+
+void CircleObject::handleCircleCollision(CircleObject *other)
+{
+    handleCircleCollision(this->getRadius(),other->getRadius(),other);
 }
 
 bool CircleObject::isCircleColliding(CircleObject *other)

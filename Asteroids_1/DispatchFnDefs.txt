@@ -1,0 +1,8 @@
+    virtual void handleCollision(Object *second);
+    virtual void handleCollision(Asteroid *first);
+    virtual void handleCollision(Spaceship *first);
+    virtual void handleCollision(Ufo *first);
+    virtual bool isColliding(Object *second);
+    virtual bool isColliding(Asteroid *first);
+    virtual bool isColliding(Spaceship *first);
+    virtual bool isColliding(Ufo *first);
