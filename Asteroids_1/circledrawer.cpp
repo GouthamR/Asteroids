@@ -12,7 +12,9 @@ CircleDrawer::CircleDrawer(CircleObject *circleObject)
 void CircleDrawer::draw(sf::RenderWindow *window)
 {
     CircleObject *object = (CircleObject*)(getObject());
-    sf::CircleShape shape(object->getRadius());
+    int radius = object->getRadius();
+    sf::CircleShape shape(radius);
+    shape.setOrigin(radius, radius);
     sf::Vector2f *windowPos = getWindowCoordinatesPosition(window);
     shape.setPosition(*windowPos);
     delete windowPos;
