@@ -4,7 +4,7 @@
 #include "drawableobject.h"
 #include "circleobject.h"
 
-class DrawableCircleObject : public virtual DrawableObject, public virtual CircleObject
+class DrawableCircleObject : public DrawableObject, public CircleObject
 {
 public:
     DrawableCircleObject(const int &xPos, const int &yPos, const int &radius);

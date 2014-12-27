@@ -6,6 +6,7 @@
 #include "vector.h"
 #include "drawableworld.h"
 #include "drawablecircleobject.h"
+#include "drawableasteroid.h"
 
 #include <iostream>
 #include <cmath>
@@ -23,14 +24,14 @@ int main()
 
     DrawableWorld *worldDrawer = new DrawableWorld(3);
 
-    DrawableCircleObject *circle = new DrawableCircleObject(WINDOW_WIDTH/5,0,5);
+    DrawableAsteroid *circle = new DrawableAsteroid(WINDOW_WIDTH/5,0,5);
     circle->setVelocity(2,2);
     worldDrawer->add(circle); // circle will be deleted by worlddrawer
 
 //    CircleObject *asteroidCircle = new CircleObject(WINDOW_WIDTH,0, 20); // will be deleted by drawer
 //    asteroidCircle->setVelocity(-2, 2);
 //    worldDrawer->add(new CircleDrawer(asteroidCircle)); // circledrawer will be deleted by worlddrawer
-    DrawableCircleObject *asteroidCircle = new DrawableCircleObject(WINDOW_WIDTH,0, 20);
+    DrawableAsteroid *asteroidCircle = new DrawableAsteroid(WINDOW_WIDTH,0, 20);
     asteroidCircle->setVelocity(-2,2);
     worldDrawer->add(asteroidCircle); // circle will be deleted by worlddrawer
 
