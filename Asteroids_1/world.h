@@ -9,10 +9,11 @@ class World
 {
 private:
     std::vector<Object*> objects;
+protected:
+    void add(Object *object);
 public:
     World(const int &numObjects);
     ~World();
-    void add(Object *object);
     void handleAllCollisions();
     void moveAllByVelocity(float elapsedTime);
 };

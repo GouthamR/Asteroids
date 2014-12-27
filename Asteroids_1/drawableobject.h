@@ -1,7 +1,8 @@
-#ifndef OBJECTDRAWER_H
-#define OBJECTDRAWER_H
+#ifndef DRAWABLEOBJECT_H
+#define DRAWABLEOBJECT_H
 
-class Object;
+#include "object.h"
+
 namespace sf
 {
     class RenderWindow;
@@ -9,17 +10,13 @@ namespace sf
     typedef Vector2<float> Vector2f;
 }
 
-class ObjectDrawer
+class DrawableObject : public virtual Object
 {
-private:
-    Object *object;
 protected:
     sf::Vector2f *getWindowCoordinatesPosition(sf::RenderWindow *window);
 public:
-    ObjectDrawer(Object *object);
-    virtual ~ObjectDrawer();
-    Object *getObject() { return object; }
+    DrawableObject(const int &xPos, const int &yPos);
     virtual void draw(sf::RenderWindow *window)=0;
 };
 
-#endif // OBJECTDRAWER_H
+#endif // DRAWABLEOBJECT_H

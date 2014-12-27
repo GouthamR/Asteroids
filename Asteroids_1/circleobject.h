@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-class CircleObject : public Object
+class CircleObject : public virtual Object
 {
 private:
     int radius;

@@ -2,10 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-#include "worlddrawer.h"
-#include "circledrawer.h"
 #include "circleobject.h"
 #include "vector.h"
+#include "drawableworld.h"
+#include "drawablecircleobject.h"
 
 #include <iostream>
 #include <cmath>
@@ -21,19 +21,18 @@ int main()
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
-    WorldDrawer *worldDrawer = new WorldDrawer(1);
+    DrawableWorld *worldDrawer = new DrawableWorld(3);
 
-    CircleObject *circleObject = new CircleObject(WINDOW_WIDTH/5, 0, 5); // will be deleted by drawer
-    circleObject->setVelocity(2, 2);
-    worldDrawer->add(new CircleDrawer(circleObject)); // circledrawer will be deleted by worlddrawer
+    DrawableCircleObject *circle = new DrawableCircleObject(WINDOW_WIDTH/5,0,5);
+    circle->setVelocity(2,2);
+    worldDrawer->add(circle); // circle will be deleted by worlddrawer
 
-    CircleObject *asteroidCircle = new CircleObject(WINDOW_WIDTH,0, 20); // will be deleted by drawer
-    asteroidCircle->setVelocity(-2, 2);
-    worldDrawer->add(new CircleDrawer(asteroidCircle)); // circledrawer will be deleted by worlddrawer
-
-    CircleObject *asteroidCircle2 = new CircleObject(WINDOW_WIDTH,WINDOW_HEIGHT, 20); // will be deleted by drawer
-    asteroidCircle2->setVelocity(-2, -3);
-    worldDrawer->add(new CircleDrawer(asteroidCircle2)); // circledrawer will be deleted by worlddrawer
+//    CircleObject *asteroidCircle = new CircleObject(WINDOW_WIDTH,0, 20); // will be deleted by drawer
+//    asteroidCircle->setVelocity(-2, 2);
+//    worldDrawer->add(new CircleDrawer(asteroidCircle)); // circledrawer will be deleted by worlddrawer
+    DrawableCircleObject *asteroidCircle = new DrawableCircleObject(WINDOW_WIDTH,0, 20);
+    asteroidCircle->setVelocity(-2,2);
+    worldDrawer->add(asteroidCircle); // circle will be deleted by worlddrawer
 
     sf::Clock clock;
     while (window->isOpen())
@@ -70,7 +69,7 @@ int main()
 
         worldDrawer->moveAllByVelocity(clock.getElapsedTime().asSeconds());
 
-        worldDrawer->handleAllWorldCollisions();
+        worldDrawer->handleAllCollisions();
 
         window->clear();
         worldDrawer->drawAll(window);
@@ -92,54 +91,4 @@ int main()
 
     return 0;
 }
-
-//#include <iostream>
-//using namespace std;
-
-//#include "circleobject.h"
-//#include "world.h"
-
-//int main ()
-//{
-//    CircleObject circle1(0, 0, 5);
-//    CircleObject circle2(5, 0, 5);
-
-//    cout << circle1 << "\t" << circle2 << endl;
-
-//    World world(2);
-//    world.add(&circle1);
-//    world.add(&circle2);
-
-//    world.handleAllCollisions();
-
-//    cout << circle1 << "\t" << circle2 << endl;
-
-//    return 0;
-//}
-
-//#include <SFML/Graphics.hpp>
-
-//int main()
-//{
-//    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-//    sf::CircleShape shape(10);
-//    shape.setPosition(0,0);
-//    shape.setFillColor(sf::Color::Green);
-
-//    while (window.isOpen())
-//    {
-//        sf::Event event;
-//        while (window.pollEvent(event))
-//        {
-//            if (event.type == sf::Event::Closed)
-//                window.close();
-//        }
-
-//        window.clear();
-//        window.draw(shape);
-//        window.display();
-//    }
-
-//    return 0;
-//}
 
