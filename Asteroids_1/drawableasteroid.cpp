@@ -14,18 +14,33 @@ DrawableAsteroid::DrawableAsteroid(const double &xPos, const double &yPos, const
     , CircleObject(xPos, yPos, radius)
 {}
 
-void DrawableAsteroid::handleCollision(CircleObject *other)
+void DrawableAsteroid::handleCollision(Object *second)
 {
-    other->handleCollision(this);
+    second->handleCollision(this);
 }
 
-void DrawableAsteroid::handleCollision(DrawableAsteroid *other)
+void DrawableAsteroid::handleCollision(DrawableAsteroid *first)
 {
-    CircleObject::handleCollision((CircleObject*)other);
+    this->handleCircleCollision((CircleObject*)first);
 }
 
-void DrawableAsteroid::handleCollision(DrawableSpaceship *other)
+void DrawableAsteroid::handleCollision(DrawableSpaceship *first)
 {
-    other->incrementCollisions();
-    CircleObject::handleCollision((CircleObject*)other);
+    first->incrementCollisions();
+    this->handleCircleCollision((CircleObject*)first);
+}
+
+bool DrawableAsteroid::isColliding(Object *second)
+{
+    return second->isColliding(this);
+}
+
+bool DrawableAsteroid::isColliding(DrawableAsteroid *first)
+{
+    return this->isCircleColliding((CircleObject*)first);
+}
+
+bool DrawableAsteroid::isColliding(DrawableSpaceship *first)
+{
+    return this->isCircleColliding((CircleObject*)first);
 }

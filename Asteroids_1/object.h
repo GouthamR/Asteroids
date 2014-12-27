@@ -16,12 +16,12 @@ private:
 public:
     Object(const double &xPos, const double &yPos);
     virtual ~Object();
-    virtual void handleCollision(Object *other) = 0;
-    virtual void handleCollision(CircleObject *other) = 0;
-    virtual void handleCollision(DrawableAsteroid *other) = 0;
-    virtual void handleCollision(DrawableSpaceship *other) = 0;
-    virtual bool isColliding(Object *other) = 0;
-    virtual bool isColliding(CircleObject *other) = 0;
+    virtual void handleCollision(Object *second) = 0;
+    virtual void handleCollision(DrawableAsteroid *first) = 0;
+    virtual void handleCollision(DrawableSpaceship *first) = 0;
+    virtual bool isColliding(Object *second) = 0;
+    virtual bool isColliding(DrawableAsteroid *first) = 0;
+    virtual bool isColliding(DrawableSpaceship *first) = 0;
     virtual double getWidth() = 0;
     virtual double getHeight() = 0;
     double getX() const;

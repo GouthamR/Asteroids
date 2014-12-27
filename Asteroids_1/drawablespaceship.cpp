@@ -27,23 +27,48 @@ void DrawableSpaceship::accelerate(const double &magnitude)
 void DrawableSpaceship::incrementCollisions()
 {
     numCollisions++;
+
+    sf::Color color;
+    switch (numCollisions)
+    { // make enum for this instead, getting color from index = numCollisions
+        case 1: color = sf::Color::Yellow; break;
+        case 2: color = sf::Color::Magenta; break;
+        case 3: color = sf::Color::Red; break;
+        default: color = sf::Color::White; break;
+    }
+    sprite->setColor(color);
 }
 
-void DrawableSpaceship::handleCollision(CircleObject *other)
+void DrawableSpaceship::handleCollision(Object *second)
 {
-    other->handleCollision(this);
+    second->handleCollision(this);
 }
 
-void DrawableSpaceship::handleCollision(DrawableAsteroid *other)
+void DrawableSpaceship::handleCollision(DrawableAsteroid *first)
 {
-    incrementCollisions();
-    CircleObject::handleCollision((CircleObject*)other);
+    this->incrementCollisions();
+    this->handleCircleCollision((CircleObject*)first);
 }
 
-void DrawableSpaceship::handleCollision(DrawableSpaceship *other)
+void DrawableSpaceship::handleCollision(DrawableSpaceship *first)
 {
-    // DEFAULT BEHAVIOR. THIS FUNCTION SHOULD NEVER BE CALLED.
-    CircleObject::handleCollision((CircleObject*)other);
+    // SHOULD NEVER BE CALLED
+    this->handleCircleCollision((CircleObject*)first);
+}
+
+bool DrawableSpaceship::isColliding(Object *second)
+{
+    return second->isColliding(this);
+}
+
+bool DrawableSpaceship::isColliding(DrawableAsteroid *first)
+{
+    return this->isCircleColliding((CircleObject*)first);
+}
+
+bool DrawableSpaceship::isColliding(DrawableSpaceship *first)
+{
+    return this->isCircleColliding((CircleObject*)first);
 }
 
 void DrawableSpaceship::draw(sf::RenderWindow *window)

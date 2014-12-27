@@ -72,12 +72,7 @@ double CircleObject::getRadius() const
     return radius;
 }
 
-void CircleObject::handleCollision(Object *other)
-{
-    other->handleCollision(this);
-}
-
-void CircleObject::handleCollision(CircleObject *other)
+void CircleObject::handleCircleCollision(CircleObject *other)
 {
     double xDist = this->getX() - other->getX();
     double yDist = this->getY() - other->getY();
@@ -112,12 +107,7 @@ void CircleObject::handleCollision(CircleObject *other)
     }
 }
 
-bool CircleObject::isColliding(Object *other)
-{
-    return other->isColliding(this);
-}
-
-bool CircleObject::isColliding(CircleObject *other)
+bool CircleObject::isCircleColliding(CircleObject *other)
 {
     return this->getIntersect(other) > 0;
 }

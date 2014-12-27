@@ -25,10 +25,8 @@ private:
 public:
     CircleObject(const double &xPos, const double &yPos, const double &radius);
     double getRadius() const;
-    virtual void handleCollision(Object *other);
-    virtual void handleCollision(CircleObject *other);
-    virtual bool isColliding(Object *other);
-    virtual bool isColliding(CircleObject *other);
+    virtual void handleCircleCollision(CircleObject *other);
+    virtual bool isCircleColliding(CircleObject *other);
     virtual double getWidth();
     virtual double getHeight();
 };
