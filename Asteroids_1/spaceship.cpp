@@ -1,10 +1,10 @@
-#include "drawablespaceship.h"
+#include "spaceship.h"
 
 #include "vector.h"
 #include<SFML/Graphics/Sprite.hpp>
 #include <string>
 
-DrawableSpaceship::DrawableSpaceship(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
+Spaceship::Spaceship(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
@@ -12,19 +12,19 @@ DrawableSpaceship::DrawableSpaceship(const double &xPos, const double &yPos, con
     , numCollisions(0)
 {}
 
-void DrawableSpaceship::rotate(const double &angle)
+void Spaceship::rotate(const double &angle)
 {
     orientation += angle;
 }
 
-void DrawableSpaceship::accelerate(const double &magnitude)
+void Spaceship::accelerate(const double &magnitude)
 {
     Phys::Vector *accel = Phys::Vector::createPolar(magnitude,orientation);
     setVelocity(getVelocity() += *accel);
     delete accel;
 }
 
-void DrawableSpaceship::incrementCollisions()
+void Spaceship::incrementCollisions()
 {
     numCollisions++;
 
@@ -39,39 +39,39 @@ void DrawableSpaceship::incrementCollisions()
     sprite->setColor(color);
 }
 
-void DrawableSpaceship::handleCollision(Object *second)
+void Spaceship::handleCollision(Object *second)
 {
     second->handleCollision(this);
 }
 
-void DrawableSpaceship::handleCollision(DrawableAsteroid *first)
+void Spaceship::handleCollision(Asteroid *first)
 {
     this->incrementCollisions();
     this->handleCircleCollision((CircleObject*)first);
 }
 
-void DrawableSpaceship::handleCollision(DrawableSpaceship *first)
+void Spaceship::handleCollision(Spaceship *first)
 {
     // SHOULD NEVER BE CALLED
     this->handleCircleCollision((CircleObject*)first);
 }
 
-bool DrawableSpaceship::isColliding(Object *second)
+bool Spaceship::isColliding(Object *second)
 {
     return second->isColliding(this);
 }
 
-bool DrawableSpaceship::isColliding(DrawableAsteroid *first)
+bool Spaceship::isColliding(Asteroid *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }
 
-bool DrawableSpaceship::isColliding(DrawableSpaceship *first)
+bool Spaceship::isColliding(Spaceship *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }
 
-void DrawableSpaceship::draw(sf::RenderWindow *window)
+void Spaceship::draw(sf::RenderWindow *window)
 {
     sprite->setRotation(-(orientation - Phys::Vector::THETA_QUARTER)/3.14*180); // orientation does not match with sprite atm
     DrawableImageObject::draw(window);

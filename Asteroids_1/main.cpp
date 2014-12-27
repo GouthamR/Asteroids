@@ -5,8 +5,8 @@
 #include "circleobject.h"
 #include "vector.h"
 #include "drawableworld.h"
-#include "drawableasteroid.h"
-#include "drawablespaceship.h"
+#include "asteroid.h"
+#include "spaceship.h"
 
 #include <iostream>
 #include <cmath>
@@ -32,13 +32,13 @@ int main()
         return 1;
     }
 
-    DrawableSpaceship *spaceship = new DrawableSpaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
+    Spaceship *spaceship = new Spaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
     for (int i = 0; i < 1; ++i)
     {
-        DrawableAsteroid *asteroid = new DrawableAsteroid(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
+        Asteroid *asteroid = new Asteroid(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
         asteroid->setVelocityXY(0,100);
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }

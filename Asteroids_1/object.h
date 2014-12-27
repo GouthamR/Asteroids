@@ -5,8 +5,8 @@
 #include "vector.h"
 
 class CircleObject;
-class DrawableAsteroid;
-class DrawableSpaceship;
+class Asteroid;
+class Spaceship;
 
 class Object
 {
@@ -17,11 +17,11 @@ public:
     Object(const double &xPos, const double &yPos);
     virtual ~Object();
     virtual void handleCollision(Object *second) = 0;
-    virtual void handleCollision(DrawableAsteroid *first) = 0;
-    virtual void handleCollision(DrawableSpaceship *first) = 0;
+    virtual void handleCollision(Asteroid *first) = 0;
+    virtual void handleCollision(Spaceship *first) = 0;
     virtual bool isColliding(Object *second) = 0;
-    virtual bool isColliding(DrawableAsteroid *first) = 0;
-    virtual bool isColliding(DrawableSpaceship *first) = 0;
+    virtual bool isColliding(Asteroid *first) = 0;
+    virtual bool isColliding(Spaceship *first) = 0;
     virtual double getWidth() = 0;
     virtual double getHeight() = 0;
     double getX() const;

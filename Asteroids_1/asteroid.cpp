@@ -1,6 +1,6 @@
-#include "drawableasteroid.h"
+#include "asteroid.h"
 
-#include "drawablespaceship.h"
+#include "spaceship.h"
 
 #include<SFML/Graphics/Sprite.hpp>
 #include<SFML/Graphics/Texture.hpp>
@@ -8,39 +8,39 @@
 
 #include <iostream>
 
-DrawableAsteroid::DrawableAsteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
+Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
 {}
 
-void DrawableAsteroid::handleCollision(Object *second)
+void Asteroid::handleCollision(Object *second)
 {
     second->handleCollision(this);
 }
 
-void DrawableAsteroid::handleCollision(DrawableAsteroid *first)
+void Asteroid::handleCollision(Asteroid *first)
 {
     this->handleCircleCollision((CircleObject*)first);
 }
 
-void DrawableAsteroid::handleCollision(DrawableSpaceship *first)
+void Asteroid::handleCollision(Spaceship *first)
 {
     first->incrementCollisions();
     this->handleCircleCollision((CircleObject*)first);
 }
 
-bool DrawableAsteroid::isColliding(Object *second)
+bool Asteroid::isColliding(Object *second)
 {
     return second->isColliding(this);
 }
 
-bool DrawableAsteroid::isColliding(DrawableAsteroid *first)
+bool Asteroid::isColliding(Asteroid *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }
 
-bool DrawableAsteroid::isColliding(DrawableSpaceship *first)
+bool Asteroid::isColliding(Spaceship *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }
