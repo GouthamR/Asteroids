@@ -8,7 +8,7 @@ class Asteroid : public DrawableImageObject, public CircleObject
 {
 public:
     Asteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture);
-    #include "DispatchFnDefs.txt"
+    #include "DispatchFnsMacro.h"
 };
 
 #endif // ASTEROID_H

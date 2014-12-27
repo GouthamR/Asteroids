@@ -12,17 +12,22 @@
 #include <iostream>
 #include <cmath>
 
+const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
+DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
+
+void addBullet(const double &xPos, const double &yPos, const double &angle)
+{
+    //worldDrawer->add(new Bullet(xPos, yPos, ));
+}
+
 int main()
 {
     const double MOVE_SPEED = 5, ROTATION_SPEED = M_PI/20;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
     window->setFramerateLimit(FRAMES_PER_SECOND);
-
-    DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 
     // (textures will be deleted by sprites?
     sf::Texture *asteroidTexture = new sf::Texture();
@@ -46,10 +51,10 @@ int main()
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }
 
-    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,ufoTexture);
+    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&add,ufoTexture);
     worldDrawer->add(ufo);
 
-    sf::Clock frameRateClock, physClock;
+    sf::Clock frameRateClock, physClock; // starts both automatically
     while (window->isOpen())
     {
         sf::Event event;
@@ -96,6 +101,8 @@ int main()
         sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - (frameRateClock.getElapsedTime().asSeconds()));
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
+
+        ufo->addTime(frameRateClock.getElapsedTime().asSeconds());
 
         frameRateClock.restart();
     }

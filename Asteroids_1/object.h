@@ -17,6 +17,7 @@ private:
 public:
     Object(const double &xPos, const double &yPos);
     virtual ~Object();
+    // replace following with macro:
     virtual void handleCollision(Object *second) = 0;
     virtual void handleCollision(Asteroid *first) = 0;
     virtual void handleCollision(Spaceship *first) = 0;

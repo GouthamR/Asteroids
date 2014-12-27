@@ -14,7 +14,7 @@ public:
     void rotate(const double &angle);
     void accelerate(const double &magnitude);
     void incrementCollisions();
-    #include "DispatchFnDefs.txt"
+    #include "DispatchFnsMacro.h"
     virtual void draw(sf::RenderWindow *window);
 };
 

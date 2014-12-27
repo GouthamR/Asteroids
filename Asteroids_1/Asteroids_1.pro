@@ -33,7 +33,7 @@ HEADERS += \
     drawableimageobject.h \
     asteroid.h \
     spaceship.h \
-    ufo.h
+    ufo.h \
+    DispatchFnsMacro.h
 
-OTHER_FILES += \
-    DispatchFnDefs.txt
+OTHER_FILES +=

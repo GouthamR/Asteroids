@@ -3,13 +3,31 @@
 #include "spaceship.h"
 
 const double Ufo::SPEED = 50;
+const double Ufo::BULLET_TIME = 2;
 
-Ufo::Ufo(const double &xPos, const double &yPos, const double &radius, const double &angle, sf::Texture *texture)
+void Ufo::shootBullet()
+{
+    addToWorld(NULL);
+}
+
+Ufo::Ufo(const double &xPos, const double &yPos, const double &radius, const double &angle, const double &bulletStartTime, void (*addToWorld)(DrawableObject *), sf::Texture *texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
+    , currentBulletTime(bulletStartTime)
+    , addToWorld(addToWorld)
 {
     setVelocityPolar(SPEED,angle);
+}
+
+void Ufo::addTime(const double &time)
+{
+    currentBulletTime += time;
+    if(currentBulletTime >= BULLET_TIME)
+    {
+        shootBullet();
+        currentBulletTime = 0;
+    }
 }
 
 void Ufo::handleCollision(Object *second)
