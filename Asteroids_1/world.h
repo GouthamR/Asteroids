@@ -14,6 +14,7 @@ public:
     ~World();
     void add(Object *object);
     void handleAllCollisions();
+    void moveAllByVelocity(float elapsedTime);
 };
 
 #endif // WORLD_H

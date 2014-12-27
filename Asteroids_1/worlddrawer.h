@@ -21,6 +21,7 @@ public:
     void add(ObjectDrawer *objectDrawer);
     void drawAll(sf::RenderWindow *window);
     void handleAllWorldCollisions();
+    void moveAllByVelocity(float elapsedTime);
 };
 
 #endif // WORLDDRAWER_H

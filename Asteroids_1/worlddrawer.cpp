@@ -45,3 +45,8 @@ void WorldDrawer::handleAllWorldCollisions()
 {
     world->handleAllCollisions();
 }
+
+void WorldDrawer::moveAllByVelocity(float elapsedTime)
+{
+    world->moveAllByVelocity(elapsedTime);
+}

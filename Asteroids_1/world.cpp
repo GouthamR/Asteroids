@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include "object.h"
+#include "vector.h"
 
 #include <iostream>
 
@@ -37,5 +38,15 @@ void World::handleAllCollisions()
         {
             (*iter1)->handleCollision(*iter2);
         }
+    }
+}
+
+void World::moveAllByVelocity(float elapsedTime)
+{
+    for(std::vector<Object*>::iterator iter1 = objects.begin();
+        iter1 != objects.end(); ++iter1)
+    {
+        (*iter1)->setX((*iter1)->getX() + (*iter1)->getVelocity().getX());
+        (*iter1)->setY((*iter1)->getY() + (*iter1)->getVelocity().getY());
     }
 }
