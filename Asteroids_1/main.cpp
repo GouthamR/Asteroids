@@ -8,16 +8,18 @@
 #include "asteroid.h"
 #include "spaceship.h"
 #include "ufo.h"
+#include "bullet.h"
 
 #include <iostream>
 #include <cmath>
 
 const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
+sf::Texture *bulletTexture = new sf::Texture();
 
 void addBullet(const double &xPos, const double &yPos, const double &angle)
 {
-    //worldDrawer->add(new Bullet(xPos, yPos, ));
+    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture)); // should NOT be called unless bullet texture loaded in main
 }
 
 int main()
@@ -34,7 +36,7 @@ int main()
     sf::Texture *spaceshipTexture = new sf::Texture();
     sf::Texture *ufoTexture = new sf::Texture();
     if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png")
-           || !ufoTexture->loadFromFile("ufo.png"))
+           || !ufoTexture->loadFromFile("ufo.png") || !bulletTexture->loadFromFile("bullet.png"))
     {
         std::cout << "ERROR: Unable to load images!" << std::endl;
         return 1;
@@ -51,7 +53,7 @@ int main()
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }
 
-    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&add,ufoTexture);
+    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,ufoTexture);
     worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock; // starts both automatically

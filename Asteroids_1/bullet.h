@@ -6,6 +6,8 @@
 
 class Bullet : public DrawableImageObject, public CircleObject
 {
+private:
+    void destroy();
 public:
     Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture);
     #include "DispatchFnsMacro.h"

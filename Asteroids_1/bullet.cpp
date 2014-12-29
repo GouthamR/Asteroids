@@ -1,5 +1,12 @@
 #include "bullet.h"
 
+#include "spaceship.h"
+
+void Bullet::destroy()
+{
+    // destroy code goes here.
+}
+
 Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
