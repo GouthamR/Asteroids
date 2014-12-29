@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     drawableimageobject.cpp \
     asteroid.cpp \
     spaceship.cpp \
-    ufo.cpp
+    ufo.cpp \
+    bullet.cpp
 
 LIBS += -LC:\Users\Goutham\Documents\SFML_Projects\SFML-2.1\lib
 
@@ -34,6 +35,7 @@ HEADERS += \
     asteroid.h \
     spaceship.h \
     ufo.h \
-    DispatchFnsMacro.h
+    DispatchFnsMacro.h \
+    bullet.h
 
 OTHER_FILES +=
