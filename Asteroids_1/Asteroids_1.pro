@@ -38,6 +38,7 @@ HEADERS += \
     DispatchFnsMacro.h \
     bullet.h \
     ClassNamesXMacro.h \
-    ObjectDispatchFnsMacro.h
+    ObjectDispatchFnsMacro.h \
+    ObjectClassDeclarationMacro.h
 
 OTHER_FILES +=

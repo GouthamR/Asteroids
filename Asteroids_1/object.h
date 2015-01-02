@@ -4,10 +4,7 @@
 #include <iosfwd>
 #include "vector.h"
 
-class CircleObject;
-class Asteroid;
-class Spaceship;
-class Ufo;
+#include "ObjectClassDeclarationMacro.h"
 
 class Object
 {
