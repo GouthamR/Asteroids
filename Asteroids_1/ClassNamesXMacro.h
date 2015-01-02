@@ -1,4 +1,4 @@
-#define CLASS_NAMES \
+#define CLASS_NAMES_X \
     X(Asteroid) \
     X(Spaceship) \
     X(Ufo)
