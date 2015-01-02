@@ -36,6 +36,8 @@ HEADERS += \
     spaceship.h \
     ufo.h \
     DispatchFnsMacro.h \
-    bullet.h
+    bullet.h \
+    ClassNamesXMacro.h \
+    ObjectDispatchFnsMacro.h
 
 OTHER_FILES +=
