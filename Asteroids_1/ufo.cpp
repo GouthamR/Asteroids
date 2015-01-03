@@ -52,6 +52,11 @@ void Ufo::handleCollision(Ufo *first)
     // Do nothing. Should never be called.
 }
 
+void Ufo::handleCollision(Bullet *first)
+{
+    // Do nothing.
+}
+
 bool Ufo::isColliding(Object *second)
 {
     return second->isColliding(this);
@@ -72,3 +77,7 @@ bool Ufo::isColliding(Ufo *first)
     return false;
 }
 
+bool Ufo::isColliding(Bullet *first)
+{
+    return false;
+}

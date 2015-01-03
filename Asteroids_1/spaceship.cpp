@@ -2,6 +2,7 @@
 
 #include "vector.h"
 #include "ufo.h"
+#include "bullet.h"
 #include<SFML/Graphics/Sprite.hpp>
 #include <string>
 
@@ -61,6 +62,11 @@ void Spaceship::handleCollision(Ufo *first)
     first->handleCollision(this);
 }
 
+void Spaceship::handleCollision(Bullet *first)
+{
+    first->handleCollision(this);
+}
+
 bool Spaceship::isColliding(Object *second)
 {
     return second->isColliding(this);
@@ -77,6 +83,11 @@ bool Spaceship::isColliding(Spaceship *first)
 }
 
 bool Spaceship::isColliding(Ufo *first)
+{
+    return this->isCircleColliding((CircleObject*)first);
+}
+
+bool Spaceship::isColliding(Bullet *first)
 {
     return this->isCircleColliding((CircleObject*)first);
 }

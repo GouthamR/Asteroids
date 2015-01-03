@@ -39,6 +39,11 @@ void Bullet::handleCollision(Ufo *first)
     // do nothing.
 }
 
+void Bullet::handleCollision(Bullet *first)
+{
+    // do nothing.
+}
+
 bool Bullet::isColliding(Object *second)
 {
     return second->isColliding(this);
@@ -55,6 +60,11 @@ bool Bullet::isColliding(Spaceship *first)
 }
 
 bool Bullet::isColliding(Ufo *first)
+{
+    return false;
+}
+
+bool Bullet::isColliding(Bullet *first)
 {
     return false;
 }
