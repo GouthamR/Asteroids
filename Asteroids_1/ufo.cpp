@@ -7,10 +7,10 @@ const double Ufo::BULLET_TIME = 2;
 
 void Ufo::shootBullet()
 {
-    addBullet(this->getX(), this->getY(), Phys::Vector::THETA_UP); // temp angle
+    addBullet(this->getX(), this->getY()); // temp angle
 }
 
-Ufo::Ufo(const double &xPos, const double &yPos, const double &radius, const double &angle, const double &bulletStartTime, void (*addBullet)(const double &, const double &, const double &), sf::Texture *texture)
+Ufo::Ufo(const double &xPos, const double &yPos, const double &radius, const double &angle, const double &bulletStartTime, void (*addBullet)(const double &, const double &), sf::Texture *texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)

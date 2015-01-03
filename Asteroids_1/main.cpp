@@ -17,7 +17,7 @@ const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 sf::Texture *bulletTexture = new sf::Texture();
 
-void addBullet(const double &xPos, const double &yPos, const double &angle)
+void addBullet(const double &xPos, const double &yPos)
 {
     worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture)); // should NOT be called unless bullet texture loaded in main
 }
