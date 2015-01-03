@@ -2,16 +2,21 @@
 
 #include "spaceship.h"
 
+const double Bullet::SPEED = 300;
+
 void Bullet::destroy()
 {
     // destroy code goes here.
 }
 
-Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
+Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture, const double &targetXPos, const double &targetYPos)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
-{}
+{
+    setVelocityXY(targetXPos - xPos, targetYPos - yPos); // set angle
+    setVelocityPolar(SPEED, getVelocity().getTheta());
+}
 
 void Bullet::handleCollision(Object *second)
 {

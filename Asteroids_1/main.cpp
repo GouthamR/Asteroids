@@ -16,10 +16,11 @@
 const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 sf::Texture *bulletTexture = new sf::Texture();
+Spaceship *spaceship;
 
 void addBullet(const double &xPos, const double &yPos)
 {
-    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture)); // should NOT be called unless bullet texture loaded in main
+    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
 }
 
 int main()
@@ -42,7 +43,7 @@ int main()
         return 1;
     }
 
-    Spaceship *spaceship = new Spaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
+    spaceship = new Spaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
