@@ -5,8 +5,9 @@
 
 using namespace Phys;
 
+const double pi = 3.14159;
 const double Vector::THETA_MIN = 0;
-const double Vector::THETA_MAX = 2*M_PI;
+const double Vector::THETA_MAX = 2*pi;
 const double Vector::THETA_QUARTER = Vector::THETA_MAX/4;
 const double Vector::THETA_RIGHT = Vector::THETA_MIN;
 const double Vector::THETA_UP = Vector::THETA_QUARTER;

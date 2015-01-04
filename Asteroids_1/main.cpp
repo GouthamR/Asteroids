@@ -25,7 +25,7 @@ void addBullet(const double &xPos, const double &yPos)
 
 int main()
 {
-    const double MOVE_SPEED = 5, ROTATION_SPEED = M_PI/20;
+    const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
 
