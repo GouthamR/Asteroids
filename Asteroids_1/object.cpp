@@ -12,6 +12,7 @@
 Object::Object(const double &xPos, const double &yPos)
     : xPos(xPos)
     , yPos(yPos)
+    , toDelete(false)
     , velocity()
 {}
 
@@ -60,6 +61,16 @@ void Object::setVelocityPolar(const double &speed, const double &angle)
 void Object::setVelocity(const Phys::Vector newVelocity)
 {
     velocity = newVelocity; // works?
+}
+
+void Object::setToDelete()
+{
+    toDelete = true;
+}
+
+bool Object::isToDelete()
+{
+    return toDelete;
 }
 
 std::ostream &operator<<(std::ostream &os, const Object &object)

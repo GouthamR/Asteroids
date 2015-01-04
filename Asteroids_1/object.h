@@ -10,6 +10,7 @@ class Object
 {
 private:
     double xPos, yPos;
+    bool toDelete;
     Phys::Vector velocity;
 public:
     Object(const double &xPos, const double &yPos);
@@ -26,6 +27,8 @@ public:
     void setVelocityXY(const double &x, const double &y);
     void setVelocityPolar(const double &speed, const double &angle);
     void setVelocity(const Phys::Vector newVelocity);
+    void setToDelete();
+    bool isToDelete();
 };
 
 #endif // OBJECT_H
