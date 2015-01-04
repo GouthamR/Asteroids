@@ -29,10 +29,10 @@ void World::add(Object *object)
     objects.push_back(object);
 }
 
-void World::remove(Object *object)
-{
-    objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
-}
+//void World::remove(Object *object)
+//{
+//    objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
+//}
 
 World::World(const int &numObjects, const int &width, const int &height, bool wrap)
     : objects(std::vector<Object*>())

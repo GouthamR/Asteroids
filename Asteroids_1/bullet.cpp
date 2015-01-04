@@ -26,6 +26,7 @@ void Bullet::handleCollision(Asteroid *first)
 void Bullet::handleCollision(Spaceship *first)
 {
     first->incrementCollisions();
+    this->setToDelete();
 }
 
 void Bullet::handleCollision(Ufo *first)

@@ -31,11 +31,11 @@ void DrawableWorld::add(DrawableObject *drawable)
     drawableObjects.push_back(drawable);
 }
 
-void DrawableWorld::remove(DrawableObject *drawable)
-{
-    World::remove(drawable);
-    drawableObjects.erase(std::remove(drawableObjects.begin(), drawableObjects.end(), drawable), drawableObjects.end());
-}
+//void DrawableWorld::remove(DrawableObject *drawable)
+//{
+//    World::remove(drawable);
+//    drawableObjects.erase(std::remove(drawableObjects.begin(), drawableObjects.end(), drawable), drawableObjects.end());
+//}
 
 void DrawableWorld::drawAll(sf::RenderWindow *window)
 {
