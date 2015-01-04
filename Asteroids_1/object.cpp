@@ -63,7 +63,7 @@ void Object::setVelocity(const Phys::Vector newVelocity)
     velocity = newVelocity; // works?
 }
 
-void Object::setToDelete()
+void Object::markToDelete()
 {
     toDelete = true;
 }

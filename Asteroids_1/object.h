@@ -27,7 +27,7 @@ public:
     void setVelocityXY(const double &x, const double &y);
     void setVelocityPolar(const double &speed, const double &angle);
     void setVelocity(const Phys::Vector newVelocity);
-    void setToDelete();
+    void markToDelete();
     bool isToDelete();
 };
 
