@@ -15,7 +15,7 @@
 
 const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
-sf::Texture *bulletTexture = new sf::Texture();
+auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
 
 void addBullet(const double &xPos, const double &yPos)
@@ -33,9 +33,9 @@ int main()
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
     // (textures will be deleted by sprites?
-    sf::Texture *asteroidTexture = new sf::Texture();
-    sf::Texture *spaceshipTexture = new sf::Texture();
-    sf::Texture *ufoTexture = new sf::Texture();
+    auto asteroidTexture = std::make_shared<sf::Texture>();
+    auto spaceshipTexture = std::make_shared<sf::Texture>();
+    auto ufoTexture = std::make_shared<sf::Texture>();
     if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png")
            || !ufoTexture->loadFromFile("ufo.png") || !bulletTexture->loadFromFile("bullet.png"))
     {
