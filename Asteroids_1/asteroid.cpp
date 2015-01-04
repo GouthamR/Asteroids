@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture)
+Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)

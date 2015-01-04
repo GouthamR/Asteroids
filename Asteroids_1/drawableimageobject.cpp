@@ -6,7 +6,9 @@
 
 #include <iostream>
 
-DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos, const double &xSize, const double &ySize, sf::Texture *texture)
+DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos,
+                                         const double &xSize, const double &ySize,
+                                         std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableObject(xPos, yPos)
     , texture(texture)

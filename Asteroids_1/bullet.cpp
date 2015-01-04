@@ -4,7 +4,9 @@
 
 const double Bullet::SPEED = 300;
 
-Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture, const double &targetXPos, const double &targetYPos)
+Bullet::Bullet(const double &xPos, const double &yPos, const double &radius,
+               std::shared_ptr<sf::Texture> texture,
+               const double &targetXPos, const double &targetYPos)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)

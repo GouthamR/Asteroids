@@ -9,7 +9,7 @@ class Bullet : public DrawableImageObject, public CircleObject
 private:
     const static double SPEED;
 public:
-    Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture,
+    Bullet(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture,
            const double &targetXPos, const double &targetYPos);
     #include "DispatchFnsMacro.h"
 };

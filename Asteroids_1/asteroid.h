@@ -7,7 +7,7 @@
 class Asteroid : public DrawableImageObject, public CircleObject
 {
 public:
-    Asteroid(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture);
+    Asteroid(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture);
     #include "DispatchFnsMacro.h"
 };
 
