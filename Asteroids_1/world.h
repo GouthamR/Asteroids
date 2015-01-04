@@ -2,21 +2,22 @@
 #define WORLD_H
 
 #include <vector> // std::vector
+#include <memory> // std::shared_ptr
 
 class Object;
 
 class World
 {
 private:
-    std::vector<Object*> objects;
+    std::vector<std::shared_ptr<Object>> objects;
     int width, height;
     bool wrap;
 protected:
-    void add(Object *object);
+    void add(std::shared_ptr<Object> objectPtr);
     void deleteMarked();
 public:
     World(const int &numObjects, const int &width, const int &height, bool wrap);
-    ~World();
+    virtual ~World();
     void handleAllCollisions();
     void moveAllByVelocity(float elapsedTimeSeconds);
 };

@@ -6,37 +6,24 @@
 #include <iostream>
 #include <algorithm>
 
-//World::World(const int &numObjects, const int &width, const int &height)
-//    : objects(std::vector<Object*>())
-//{
-//    objects.reserve(numObjects);
-//}
-
 World::~World()
 {
     std::cout << "Destruct World: Do nothing." << std::endl;
-
-//    for(std::vector<Object*>::iterator iter = objects.begin();
-//        iter != objects.end(); ++iter)
-//    {
-//        delete (*iter);
-//    }
-//    objects.clear();
 }
 
-void World::add(Object *object)
+void World::add(std::shared_ptr<Object> objectPtr)
 {
-    objects.push_back(object);
+    objects.push_back(objectPtr);
 }
 
 void World::deleteMarked()
 {
-    auto deleteFn = [](Object *obj){ return obj->isToDelete(); };
+    auto deleteFn = [](std::shared_ptr<Object> obj){ return obj->isToDelete(); };
     objects.erase(std::remove_if(objects.begin(), objects.end(), deleteFn), objects.end());
 }
 
 World::World(const int &numObjects, const int &width, const int &height, bool wrap)
-    : objects(std::vector<Object*>())
+    : objects(std::vector<std::shared_ptr<Object>>())
     , width(width)
     , height(height)
     , wrap(wrap)
@@ -46,14 +33,12 @@ World::World(const int &numObjects, const int &width, const int &height, bool wr
 
 void World::handleAllCollisions()
 {
-    for(std::vector<Object*>::iterator iter1 = objects.begin();
-        iter1 != objects.end(); ++iter1)
+    for(auto iter1 = objects.begin(); iter1 != objects.end(); ++iter1)
     {
-        for(std::vector<Object*>::iterator iter2 = iter1+1;
-            iter2 != objects.end(); ++iter2)
+        for(auto iter2 = iter1 + 1; iter2 != objects.end(); ++iter2)
         {
-            if((*iter1)->isColliding((*iter2)))
-                (*iter1)->handleCollision(*iter2);
+            if((*iter1)->isColliding((*iter2).get()))
+                (*iter1)->handleCollision((*iter2).get());
         }
     }
 }
@@ -69,8 +54,7 @@ double getWrapped(const double &x, const double &min, const double &max)
 
 void World::moveAllByVelocity(float elapsedTimeSeconds)
 {
-    for(std::vector<Object*>::iterator iter1 = objects.begin();
-        iter1 != objects.end(); ++iter1)
+    for(auto iter1 = objects.begin(); iter1 != objects.end(); ++iter1)
     {
         double newX = (*iter1)->getX() + (*iter1)->getVelocity().getX()*elapsedTimeSeconds;
         double newY = (*iter1)->getY() + (*iter1)->getVelocity().getY()*elapsedTimeSeconds;
