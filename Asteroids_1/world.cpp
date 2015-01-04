@@ -29,14 +29,10 @@ void World::add(Object *object)
     objects.push_back(object);
 }
 
-bool isMarkedToDelete(Object *obj)
-{
-    return obj->isToDelete();
-}
-
 void World::deleteMarked()
 {
-    objects.erase(std::remove_if(objects.begin(), objects.end(), &isMarkedToDelete), objects.end());
+    auto deleteFn = [](Object *obj){ return obj->isToDelete(); };
+    objects.erase(std::remove_if(objects.begin(), objects.end(), deleteFn), objects.end());
 }
 
 World::World(const int &numObjects, const int &width, const int &height, bool wrap)

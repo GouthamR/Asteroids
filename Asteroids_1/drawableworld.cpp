@@ -46,13 +46,9 @@ void DrawableWorld::drawAll(sf::RenderWindow *window)
     }
 }
 
-bool isMarkedToDelete(DrawableObject *obj)
-{
-    return obj->isToDelete();
-}
-
 void DrawableWorld::deleteMarked()
 {
     World::deleteMarked();
-    drawableObjects.erase(std::remove_if(drawableObjects.begin(), drawableObjects.end(), &isMarkedToDelete), drawableObjects.end());
+    auto deleteFn =  [](DrawableObject *obj){ return obj->isToDelete(); };
+    drawableObjects.erase(std::remove_if(drawableObjects.begin(), drawableObjects.end(), deleteFn), drawableObjects.end());
 }
