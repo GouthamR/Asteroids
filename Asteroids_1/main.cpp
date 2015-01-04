@@ -18,15 +18,9 @@ DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true
 sf::Texture *bulletTexture = new sf::Texture();
 Spaceship *spaceship;
 
-void destroy(DrawableObject *dObj)
-{
-    worldDrawer->remove(dObj);
-    delete dObj;
-}
-
 void addBullet(const double &xPos, const double &yPos)
 {
-    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture, &destroy, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
+    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
 }
 
 int main()

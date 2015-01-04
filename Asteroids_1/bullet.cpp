@@ -4,16 +4,10 @@
 
 const double Bullet::SPEED = 300;
 
-void Bullet::destroy()
-{
-    destroyObject(this);
-}
-
-Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture, void (*destroyObject)(DrawableObject *dObj), const double &targetXPos, const double &targetYPos)
+Bullet::Bullet(const double &xPos, const double &yPos, const double &radius, sf::Texture *texture, const double &targetXPos, const double &targetYPos)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
-    , destroyObject(destroyObject)
 {
     setVelocityXY(targetXPos - xPos, targetYPos - yPos); // set angle
     setVelocityPolar(SPEED, getVelocity().getTheta());
@@ -32,7 +26,6 @@ void Bullet::handleCollision(Asteroid *first)
 void Bullet::handleCollision(Spaceship *first)
 {
     first->incrementCollisions();
-    this->destroy();
 }
 
 void Bullet::handleCollision(Ufo *first)
