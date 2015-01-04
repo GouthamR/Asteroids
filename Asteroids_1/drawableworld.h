@@ -18,6 +18,7 @@ public:
     DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap);
     ~DrawableWorld();
     void add(DrawableObject *drawable);
+    void remove(DrawableObject *drawable);
     void drawAll(sf::RenderWindow *window);
 };
 

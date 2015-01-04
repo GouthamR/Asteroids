@@ -5,6 +5,7 @@
 #include "drawableobject.h"
 
 #include <iostream>
+#include <algorithm>
 
 DrawableWorld::DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap)
     : World(numObjects,width,height, wrap)
@@ -28,6 +29,12 @@ void DrawableWorld::add(DrawableObject *drawable)
 {
     World::add(drawable);
     drawableObjects.push_back(drawable);
+}
+
+void DrawableWorld::remove(DrawableObject *drawable)
+{
+    World::remove(drawable);
+    drawableObjects.erase(std::remove(drawableObjects.begin(), drawableObjects.end(), drawable), drawableObjects.end());
 }
 
 void DrawableWorld::drawAll(sf::RenderWindow *window)

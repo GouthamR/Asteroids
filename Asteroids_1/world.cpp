@@ -4,6 +4,7 @@
 #include "vector.h"
 
 #include <iostream>
+#include <algorithm>
 
 //World::World(const int &numObjects, const int &width, const int &height)
 //    : objects(std::vector<Object*>())
@@ -26,6 +27,11 @@ World::~World()
 void World::add(Object *object)
 {
     objects.push_back(object);
+}
+
+void World::remove(Object *object)
+{
+    objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
 }
 
 World::World(const int &numObjects, const int &width, const int &height, bool wrap)

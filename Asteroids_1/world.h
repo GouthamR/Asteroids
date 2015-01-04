@@ -13,6 +13,7 @@ private:
     bool wrap;
 protected:
     void add(Object *object);
+    void remove(Object *object);
 public:
     World(const int &numObjects, const int &width, const int &height, bool wrap);
     ~World();
