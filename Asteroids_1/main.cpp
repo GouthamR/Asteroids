@@ -16,11 +16,11 @@
 const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 sf::Texture *bulletTexture = new sf::Texture();
-Spaceship *spaceship;
+std::shared_ptr<Spaceship> spaceship;
 
 void addBullet(const double &xPos, const double &yPos)
 {
-    worldDrawer->add(new Bullet(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
+    worldDrawer->add(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
 }
 
 int main()
@@ -43,18 +43,18 @@ int main()
         return 1;
     }
 
-    spaceship = new Spaceship(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
+    spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
     for (int i = 0; i < 1; ++i)
     {
-        Asteroid *asteroid = new Asteroid(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
+        auto asteroid = std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
         asteroid->setVelocityXY(0,100);
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }
 
-    Ufo *ufo = new Ufo(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,ufoTexture);
+    auto ufo = std::make_shared<Ufo>(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,ufoTexture);
     worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock; // starts both automatically
