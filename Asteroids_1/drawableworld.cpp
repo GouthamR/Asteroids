@@ -9,38 +9,26 @@
 
 DrawableWorld::DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap)
     : World(numObjects,width,height, wrap)
-    , drawableObjects(std::vector<DrawableObject*>())
-{}
+    , drawableObjects(std::vector<std::shared_ptr<DrawableObject>>())
+{
+    drawableObjects.reserve(numObjects);
+}
 
 DrawableWorld::~DrawableWorld()
 {
-    std::cout << "Destruct DrawableWorld" << std::endl;
-
-    for(std::vector<DrawableObject*>::iterator iter = drawableObjects.begin();
-        iter != drawableObjects.end(); ++iter)
-    {
-        // CHECK IF THIS WORKS!
-        delete (*iter);
-    }
+    std::cout << "Destruct DrawableWorld: clear vector." << std::endl;
     drawableObjects.clear();
 }
 
-void DrawableWorld::add(DrawableObject *drawable)
+void DrawableWorld::add(std::shared_ptr<DrawableObject> drawablePtr)
 {
-    World::add(drawable);
-    drawableObjects.push_back(drawable);
+    World::add(drawablePtr);
+    drawableObjects.push_back(drawablePtr);
 }
-
-//void DrawableWorld::remove(DrawableObject *drawable)
-//{
-//    World::remove(drawable);
-//    drawableObjects.erase(std::remove(drawableObjects.begin(), drawableObjects.end(), drawable), drawableObjects.end());
-//}
 
 void DrawableWorld::drawAll(sf::RenderWindow *window)
 {
-    for(std::vector<DrawableObject*>::iterator iter = drawableObjects.begin();
-        iter != drawableObjects.end(); ++iter)
+    for(auto iter = drawableObjects.begin(); iter != drawableObjects.end(); ++iter)
     {
         (*iter)->draw(window);
     }
@@ -49,6 +37,6 @@ void DrawableWorld::drawAll(sf::RenderWindow *window)
 void DrawableWorld::deleteMarked()
 {
     World::deleteMarked();
-    auto deleteFn =  [](DrawableObject *obj){ return obj->isToDelete(); };
+    auto deleteFn =  [](std::shared_ptr<DrawableObject> obj){ return obj->isToDelete(); };
     drawableObjects.erase(std::remove_if(drawableObjects.begin(), drawableObjects.end(), deleteFn), drawableObjects.end());
 }
