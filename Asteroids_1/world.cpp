@@ -8,7 +8,8 @@
 
 World::~World()
 {
-    std::cout << "Destruct World: Do nothing." << std::endl;
+    std::cout << "Destruct World: clear vector." << std::endl;
+    objects.clear();
 }
 
 void World::add(std::shared_ptr<Object> objectPtr)
