@@ -19,6 +19,7 @@ public:
     ~DrawableWorld();
     void add(DrawableObject *drawable);
     void drawAll(sf::RenderWindow *window);
+    void deleteMarked();
 };
 
 #endif // DRAWABLEWORLD_H

@@ -107,6 +107,8 @@ int main()
 
         ufo->addTime(frameRateClock.getElapsedTime().asSeconds());
 
+        worldDrawer->deleteMarked();
+
         frameRateClock.restart();
     }
 

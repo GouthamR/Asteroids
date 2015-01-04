@@ -45,3 +45,14 @@ void DrawableWorld::drawAll(sf::RenderWindow *window)
         (*iter)->draw(window);
     }
 }
+
+bool isMarkedToDelete(DrawableObject *obj)
+{
+    return obj->isToDelete();
+}
+
+void DrawableWorld::deleteMarked()
+{
+    World::deleteMarked();
+    drawableObjects.erase(std::remove_if(drawableObjects.begin(), drawableObjects.end(), &isMarkedToDelete), drawableObjects.end());
+}
