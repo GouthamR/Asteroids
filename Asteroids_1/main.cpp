@@ -105,7 +105,7 @@ int main()
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
 
-        ufo->addTime(frameRateClock.getElapsedTime().asSeconds());
+        ufo->update(frameRateClock.getElapsedTime().asSeconds());
 
         worldDrawer->deleteMarked();
 

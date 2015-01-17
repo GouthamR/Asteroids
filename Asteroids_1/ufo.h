@@ -19,7 +19,7 @@ public:
         const double &angle, const double &bulletStartTime,
         void (*addBullet)(const double &xPos, const double &yPos),
         std::shared_ptr<sf::Texture> texture);
-    void addTime(const double &time);
+    void update(const double &time);
     #include "DispatchFnsMacro.h"
 };
 #endif // UFO_H

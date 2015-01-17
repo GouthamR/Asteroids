@@ -23,7 +23,7 @@ Ufo::Ufo(const double &xPos, const double &yPos, const double &radius,
     setVelocityPolar(SPEED,angle);
 }
 
-void Ufo::addTime(const double &time)
+void Ufo::update(const double &time)
 {
     currentBulletTime += time;
     if(currentBulletTime >= BULLET_TIME)
