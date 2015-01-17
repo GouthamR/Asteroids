@@ -12,14 +12,14 @@ private:
     std::vector<std::shared_ptr<Object>> objects;
     int width, height;
     bool wrap;
+    void moveByVelocity(std::shared_ptr<Object> obj, float elapsedTimeSeconds);
 protected:
     void add(std::shared_ptr<Object> objectPtr);
     void deleteMarked();
 public:
     World(const int &numObjects, const int &width, const int &height, bool wrap);
     virtual ~World();
-    void handleAllCollisions();
-    void moveAllByVelocity(float elapsedTimeSeconds);
+    void updateAll(float elapsedTimeSeconds);
     bool isOutOfBounds(Object *obj);
 };
 

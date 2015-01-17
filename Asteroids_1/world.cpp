@@ -12,6 +12,28 @@ World::~World()
     objects.clear();
 }
 
+double getWrapped(const double &x, const double &min, const double &max)
+{
+    if(x > max)
+        return min;
+    else if(x < min)
+        return max;
+    return x;
+}
+
+void World::moveByVelocity(std::shared_ptr<Object> obj, float elapsedTimeSeconds)
+{
+    double newX = obj->getX() + obj->getVelocity().getX()*elapsedTimeSeconds;
+    double newY = obj->getY() + obj->getVelocity().getY()*elapsedTimeSeconds;
+    if(wrap)
+    {
+        newX = getWrapped(newX, -obj->getWidth()/2, width + obj->getWidth()/2);
+        newY = getWrapped(newY, -obj->getHeight()/2, height + obj->getHeight()/2);
+    }
+    obj->setX(newX);
+    obj->setY(newY);
+}
+
 void World::add(std::shared_ptr<Object> objectPtr)
 {
     objects.push_back(objectPtr);
@@ -32,40 +54,17 @@ World::World(const int &numObjects, const int &width, const int &height, bool wr
     objects.reserve(numObjects);
 }
 
-void World::handleAllCollisions()
+void World::updateAll(float elapsedTimeSeconds)
 {
     for(auto iter1 = objects.begin(); iter1 != objects.end(); ++iter1)
     {
+        moveByVelocity(*iter1, elapsedTimeSeconds);
+
         for(auto iter2 = iter1 + 1; iter2 != objects.end(); ++iter2)
         {
             if((*iter1)->isColliding((*iter2).get()))
                 (*iter1)->handleCollision((*iter2).get());
         }
-    }
-}
-
-double getWrapped(const double &x, const double &min, const double &max)
-{
-    if(x > max)
-        return min;
-    else if(x < min)
-        return max;
-    return x;
-}
-
-void World::moveAllByVelocity(float elapsedTimeSeconds)
-{
-    for(auto iter1 = objects.begin(); iter1 != objects.end(); ++iter1)
-    {
-        double newX = (*iter1)->getX() + (*iter1)->getVelocity().getX()*elapsedTimeSeconds;
-        double newY = (*iter1)->getY() + (*iter1)->getVelocity().getY()*elapsedTimeSeconds;
-        if(wrap)
-        {
-            newX = getWrapped(newX, -(*iter1)->getWidth()/2, width + (*iter1)->getWidth()/2);
-            newY = getWrapped(newY, -(*iter1)->getHeight()/2, height + (*iter1)->getHeight()/2);
-        }
-        (*iter1)->setX(newX);
-        (*iter1)->setY(newY);
     }
 }
 

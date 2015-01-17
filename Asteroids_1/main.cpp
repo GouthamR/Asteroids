@@ -97,8 +97,7 @@ int main()
 
         if(physClock.getElapsedTime().asSeconds() >= 1/PHYS_FRAMES_PER_SECOND)
         {
-            worldDrawer->moveAllByVelocity(physClock.getElapsedTime().asSeconds());
-            worldDrawer->handleAllCollisions();
+            worldDrawer->updateAll(physClock.getElapsedTime().asSeconds());
             physClock.restart();
         }
 
