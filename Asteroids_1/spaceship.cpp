@@ -36,7 +36,7 @@ void Spaceship::incrementCollisions()
         case 1: color = sf::Color::Yellow; break;
         case 2: color = sf::Color::Magenta; break;
         case 3: color = sf::Color::Red; break;
-        default: color = sf::Color::Blue; break;
+        default: markToDelete(); color = sf::Color::Blue; break;
     }
     sprite->setColor(color);
 }
