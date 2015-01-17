@@ -13,12 +13,14 @@ void Ufo::shootBullet()
 Ufo::Ufo(const double &xPos, const double &yPos, const double &radius,
          const double &angle, const double &bulletStartTime,
          void (*addBullet)(const double &, const double &),
+         bool (*outOfBounds)(Object *),
          std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
     , currentBulletTime(bulletStartTime)
     , addBullet(addBullet)
+    , outOfBounds(outOfBounds)
 {
     setVelocityPolar(SPEED,angle);
 }
@@ -31,6 +33,9 @@ void Ufo::update(const double &time)
         shootBullet();
         currentBulletTime = 0;
     }
+
+    if(outOfBounds(this))
+        markToDelete();
 }
 
 void Ufo::handleCollision(Object *second)

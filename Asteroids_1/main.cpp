@@ -59,7 +59,7 @@ int main()
         worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
     }
 
-    auto ufo = std::make_shared<Ufo>(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,ufoTexture);
+    auto ufo = std::make_shared<Ufo>(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,&outOfBounds, ufoTexture);
     worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock; // starts both automatically
@@ -110,7 +110,8 @@ int main()
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
 
-        ufo->update(frameRateClock.getElapsedTime().asSeconds());
+        if(!ufo->isToDelete()) // if not permanently set to delete
+            ufo->update(frameRateClock.getElapsedTime().asSeconds());
 
         worldDrawer->deleteMarked();
 

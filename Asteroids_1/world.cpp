@@ -75,6 +75,7 @@ bool World::isOutOfBounds(Object *obj)
     double y = obj->getY();
     double oHalfWidth = obj->getWidth()/2;
     double oHalfHeight = obj->getHeight()/2;
-    return x - oHalfWidth > width || x + oHalfWidth < 0
-            || y - oHalfHeight > height || y + oHalfHeight < 0;
+    // note: need to include equal condition, or else could wrap and will never be out of bounds.
+    return x - oHalfWidth >= width || x + oHalfWidth <= 0
+            || y - oHalfHeight >= height || y + oHalfHeight <= 0;
 }
