@@ -20,6 +20,7 @@ public:
     virtual ~World();
     void handleAllCollisions();
     void moveAllByVelocity(float elapsedTimeSeconds);
+    bool isOutOfBounds(Object *obj);
 };
 
 #endif // WORLD_H

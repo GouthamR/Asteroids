@@ -68,3 +68,13 @@ void World::moveAllByVelocity(float elapsedTimeSeconds)
         (*iter1)->setY(newY);
     }
 }
+
+bool World::isOutOfBounds(Object *obj)
+{
+    double x = obj->getX();
+    double y = obj->getY();
+    double oHalfWidth = obj->getWidth()/2;
+    double oHalfHeight = obj->getHeight()/2;
+    return x - oHalfWidth > width || x + oHalfWidth < 0
+            || y - oHalfHeight > height || y + oHalfHeight < 0;
+}

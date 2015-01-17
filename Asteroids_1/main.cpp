@@ -18,6 +18,11 @@ DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true
 auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
 
+bool outOfBounds(Object *obj)
+{
+    return worldDrawer->isOutOfBounds(obj);
+}
+
 void addBullet(const double &xPos, const double &yPos)
 {
     worldDrawer->add(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
