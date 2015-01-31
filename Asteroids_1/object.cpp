@@ -73,6 +73,11 @@ bool Object::isToDelete()
     return toDelete;
 }
 
+void Object::update(const double &time)
+{
+    // do nothing by default.
+}
+
 std::ostream &operator<<(std::ostream &os, const Object &object)
 {
     os << "Object - XY: (" << object.xPos << ", " << object.yPos << ")";

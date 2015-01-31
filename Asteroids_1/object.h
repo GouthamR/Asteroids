@@ -29,6 +29,7 @@ public:
     void setVelocity(const Phys::Vector newVelocity);
     void markToDelete();
     bool isToDelete();
+    virtual void update(const double &time);
 };
 
 #endif // OBJECT_H

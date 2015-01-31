@@ -59,6 +59,7 @@ void World::updateAll(float elapsedTimeSeconds)
     for(auto iter1 = objects.begin(); iter1 != objects.end(); ++iter1)
     {
         moveByVelocity(*iter1, elapsedTimeSeconds);
+        (*iter1)->update(elapsedTimeSeconds);
 
         for(auto iter2 = iter1 + 1; iter2 != objects.end(); ++iter2)
         {
