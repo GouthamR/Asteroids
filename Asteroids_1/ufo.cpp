@@ -3,7 +3,7 @@
 #include "spaceship.h"
 
 const double Ufo::SPEED = 50;
-const double Ufo::BULLET_TIME = 2;
+const double Ufo::BULLET_TIME = 1;
 
 void Ufo::shootBullet()
 {

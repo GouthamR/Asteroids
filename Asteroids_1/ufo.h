@@ -21,7 +21,7 @@ public:
         void (*addBullet)(const double &xPos, const double &yPos),
         bool (*outOfBounds)(Object *obj),
         std::shared_ptr<sf::Texture> texture);
-    void update(const double &time);
+    virtual void update(const double &time);
     #include "DispatchFnsMacro.h"
 };
 #endif // UFO_H
