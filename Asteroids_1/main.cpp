@@ -27,7 +27,7 @@ bool outOfBounds(Object *obj)
 void addBullet(const double &xPos, const double &yPos)
 {
     // should NOT be called unless bullet texture loaded in main:
-    objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY()));
+    objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY(), &outOfBounds));
 }
 
 int main()

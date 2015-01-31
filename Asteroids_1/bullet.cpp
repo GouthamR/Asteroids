@@ -6,13 +6,21 @@ const double Bullet::SPEED = 300;
 
 Bullet::Bullet(const double &xPos, const double &yPos, const double &radius,
                std::shared_ptr<sf::Texture> texture,
-               const double &targetXPos, const double &targetYPos)
+               const double &targetXPos, const double &targetYPos,
+               bool (*outOfBounds)(Object *))
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
+    , outOfBounds(outOfBounds)
 {
     setVelocityXY(targetXPos - xPos, targetYPos - yPos); // set angle
     setVelocityPolar(SPEED, getVelocity().getTheta());
+}
+
+void Bullet::update(const double &time)
+{
+    if(outOfBounds(this))
+        markToDelete();
 }
 
 void Bullet::handleCollision(Object *second)
