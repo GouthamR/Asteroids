@@ -17,7 +17,7 @@ const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
-auto objectsToAdd = std::vector<std::shared_ptr<DrawableObject>>(0);
+auto objectsToAdd = std::vector<std::shared_ptr<DrawableObject>>();
 
 bool outOfBounds(Object *obj)
 {
@@ -31,10 +31,12 @@ void addBullet(const double &xPos, const double &yPos)
 }
 
 int main()
-{
+{    
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
+
+    objectsToAdd.reserve(1);
 
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
     window->setFramerateLimit(FRAMES_PER_SECOND);
