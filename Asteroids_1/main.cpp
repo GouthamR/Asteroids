@@ -17,6 +17,7 @@ const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
+auto objectsToAdd = std::vector<std::shared_ptr<DrawableObject>>(0);
 
 bool outOfBounds(Object *obj)
 {
@@ -25,7 +26,8 @@ bool outOfBounds(Object *obj)
 
 void addBullet(const double &xPos, const double &yPos)
 {
-    worldDrawer->add(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY())); // should NOT be called unless bullet texture loaded in main
+    // should NOT be called unless bullet texture loaded in main:
+    objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY()));
 }
 
 int main()
@@ -109,8 +111,9 @@ int main()
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
 
-        if(!ufo->isToDelete()) // if not permanently set to delete
-            ufo->update(frameRateClock.getElapsedTime().asSeconds());
+        for(auto iter = objectsToAdd.begin(); iter != objectsToAdd.end(); ++iter)
+            worldDrawer->add(*iter);
+        objectsToAdd.clear();
 
         worldDrawer->deleteMarked();
 
