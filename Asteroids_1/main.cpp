@@ -35,6 +35,8 @@ int main()
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
+    const float ASTEROID_ADD_DELAY = 10;
+    bool addedAsteroid = false;
 
     objectsToAdd.reserve(1);
 
@@ -66,7 +68,7 @@ int main()
     auto ufo = std::make_shared<Ufo>(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,&outOfBounds, ufoTexture);
     worldDrawer->add(ufo);
 
-    sf::Clock frameRateClock, physClock; // starts both automatically
+    sf::Clock frameRateClock, physClock, timeElapsedClock; // starts both automatically
     while (window->isOpen())
     {
         sf::Event event;
@@ -112,6 +114,20 @@ int main()
         sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - (frameRateClock.getElapsedTime().asSeconds()));
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
+
+        float secondsElapsed = timeElapsedClock.getElapsedTime().asSeconds();
+        if(secondsElapsed > ASTEROID_ADD_DELAY)
+        {
+            if(!addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) < 1)
+            {
+                objectsToAdd.push_back(std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture));
+                addedAsteroid = true;
+            }
+            else if(addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) >= 1)
+            {
+                addedAsteroid = false;
+            }
+        }
 
         for(auto iter = objectsToAdd.begin(); iter != objectsToAdd.end(); ++iter)
             worldDrawer->add(*iter);
