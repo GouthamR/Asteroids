@@ -8,11 +8,21 @@
 
 #include <iostream>
 
+const double Asteroid::LIFETIME = 5;
+
 Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
+    , timeElapsed(0)
 {}
+
+void Asteroid::update(const double &time)
+{
+    timeElapsed += time;
+    if(timeElapsed >= LIFETIME)
+        markToDelete();
+}
 
 void Asteroid::handleCollision(Object *second)
 {
