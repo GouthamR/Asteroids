@@ -30,12 +30,19 @@ void addBullet(const double &xPos, const double &yPos)
     objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY(), &outOfBounds));
 }
 
+int getRandInt(int min, int max)
+{
+    return rand() % (max - min + 1) + min;
+}
+
 int main()
 {    
+    srand (time(NULL));
+
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const float ASTEROID_ADD_DELAY = 10;
+    const float ASTEROID_ADD_DELAY = 5;
     bool addedAsteroid = false;
 
     objectsToAdd.reserve(1);
@@ -43,7 +50,6 @@ int main()
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
-    // (textures will be deleted by sprites?
     auto asteroidTexture = std::make_shared<sf::Texture>();
     auto spaceshipTexture = std::make_shared<sf::Texture>();
     auto ufoTexture = std::make_shared<sf::Texture>();
@@ -58,14 +64,16 @@ int main()
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
-    for (int i = 0; i < 1; ++i)
+    const int ASTEROID_V_MAX = 100;
+    for (int i = 0; i < 10; ++i)
     {
-        auto asteroid = std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
-        asteroid->setVelocityXY(0,100);
-        worldDrawer->add(asteroid); // circle will be deleted by worlddrawer
+//        auto asteroid = std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
+        auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, asteroidTexture);
+        asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
+        worldDrawer->add(asteroid);
     }
 
-    auto ufo = std::make_shared<Ufo>(WINDOW_WIDTH/4,WINDOW_HEIGHT/2,WINDOW_WIDTH/40,Phys::Vector::THETA_LEFT,0,&addBullet,&outOfBounds, ufoTexture);
+    auto ufo = std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,&addBullet,&outOfBounds, ufoTexture);
     worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts both automatically

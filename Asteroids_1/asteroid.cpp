@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-const double Asteroid::LIFETIME = 5;
+const double Asteroid::LIFETIME = 10;
 
 Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
