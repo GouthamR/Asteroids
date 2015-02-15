@@ -42,8 +42,8 @@ int main()
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const float ASTEROID_ADD_DELAY = 5;
-    bool addedAsteroid = false;
+    const float ASTEROID_ADD_DELAY = 5, UFO_ADD_DELAY = 15;
+    bool addedAsteroid = false, addedUfo = false;
 
     objectsToAdd.reserve(1);
 
@@ -71,9 +71,6 @@ int main()
         asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
         worldDrawer->add(asteroid);
     }
-
-    auto ufo = std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,&addBullet,&outOfBounds, ufoTexture);
-    worldDrawer->add(ufo);
 
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts both automatically
     while (window->isOpen())
@@ -133,6 +130,18 @@ int main()
             else if(addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) >= 1)
             {
                 addedAsteroid = false;
+            }
+        }
+        if(secondsElapsed > UFO_ADD_DELAY)
+        {
+            if(!addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) < 1)
+            {
+                objectsToAdd.push_back(std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,&addBullet,&outOfBounds, ufoTexture));
+                addedUfo = true;
+            }
+            else if(addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) >= 1)
+            {
+                addedUfo = false;
             }
         }
 
