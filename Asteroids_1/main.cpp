@@ -18,6 +18,7 @@ DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true
 auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
 auto objectsToAdd = std::vector<std::shared_ptr<DrawableObject>>();
+const int ASTEROID_V_MAX = 100;
 
 bool outOfBounds(Object *obj)
 {
@@ -30,9 +31,16 @@ void addBullet(const double &xPos, const double &yPos)
     objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY(), &outOfBounds));
 }
 
-int getRandInt(int min, int max)
+int getRandInt(const int &min, const int &max)
 {
     return rand() % (max - min + 1) + min;
+}
+
+std::shared_ptr<Asteroid> createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture)
+{
+    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture);
+    asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
+    return asteroid;
 }
 
 int main()
@@ -42,7 +50,7 @@ int main()
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const float ASTEROID_ADD_DELAY = 5, UFO_ADD_DELAY = 15;
+    const float ASTEROID_ADD_DELAY = 2, UFO_ADD_DELAY = 10;
     bool addedAsteroid = false, addedUfo = false;
 
     objectsToAdd.reserve(1);
@@ -64,12 +72,9 @@ int main()
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
-    const int ASTEROID_V_MAX = 100;
     for (int i = 0; i < 10; ++i)
     {
-        auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture);
-        asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
-        worldDrawer->add(asteroid);
+        worldDrawer->add(createAsteroid(asteroidTexture));
     }
 
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts both automatically
@@ -124,7 +129,7 @@ int main()
         {
             if(!addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) < 1)
             {
-                objectsToAdd.push_back(std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture));
+                objectsToAdd.push_back(createAsteroid(asteroidTexture));
                 addedAsteroid = true;
             }
             else if(addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) >= 1)
