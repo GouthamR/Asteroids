@@ -8,12 +8,11 @@
 
 #include <iostream>
 
-const double Asteroid::LIFETIME = 10;
-
-Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
+Asteroid::Asteroid(const double &xPos, const double &yPos, const double &radius, const double &lifetime, std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
+    , LIFETIME(lifetime)
     , timeElapsed(0)
 {}
 

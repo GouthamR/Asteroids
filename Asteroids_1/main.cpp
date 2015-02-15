@@ -67,8 +67,7 @@ int main()
     const int ASTEROID_V_MAX = 100;
     for (int i = 0; i < 10; ++i)
     {
-//        auto asteroid = std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture);
-        auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, asteroidTexture);
+        auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture);
         asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
         worldDrawer->add(asteroid);
     }
@@ -128,7 +127,7 @@ int main()
         {
             if(!addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) < 1)
             {
-                objectsToAdd.push_back(std::make_shared<Asteroid>(WINDOW_WIDTH/2,0,WINDOW_WIDTH/50, asteroidTexture));
+                objectsToAdd.push_back(std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture));
                 addedAsteroid = true;
             }
             else if(addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) >= 1)
