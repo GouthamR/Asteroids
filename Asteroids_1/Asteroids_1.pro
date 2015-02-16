@@ -1,5 +1,5 @@
 TEMPLATE = app
-CONFIG += console
+#CONFIG += console  #adds console.
 CONFIG -= app_bundle
 CONFIG -= qt
 

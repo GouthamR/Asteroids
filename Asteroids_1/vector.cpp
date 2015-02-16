@@ -50,12 +50,12 @@ Vector &Vector::operator +=(const Vector &other)
     return *this;
 }
 
-inline double Vector::getX() const
+double Vector::getX() const
 {
     return r*cos(t);
 }
 
-inline double Vector::getY() const
+double Vector::getY() const
 {
     return r*sin(t);
 }
