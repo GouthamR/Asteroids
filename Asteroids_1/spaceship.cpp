@@ -33,10 +33,10 @@ void Spaceship::incrementCollisions()
     sf::Color color;
     switch (numCollisions)
     { // make enum for this instead, getting color from index = numCollisions
-        case 1: color = sf::Color::Yellow; break;
-        case 2: color = sf::Color::Magenta; break;
-        case 3: color = sf::Color::Red; break;
-        default: markToDelete(); color = sf::Color::Blue; break;
+        case 1: color = sf::Color(255, 150, 0); break;
+        case 2: color = sf::Color(255, 75, 0); break;
+        case 3: color = sf::Color(255, 0, 0); break;
+        default: markToDelete(); break;
     }
     sprite->setColor(color);
 }

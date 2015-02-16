@@ -38,7 +38,7 @@ int getRandInt(const int &min, const int &max)
 
 std::shared_ptr<Asteroid> createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture)
 {
-    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(5, 10), asteroidTexture);
+    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(30, 60), asteroidTexture);
     asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
     return asteroid;
 }
@@ -50,7 +50,7 @@ int main()
     const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
     const double FRAMES_PER_SECOND = 60;
     const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const float ASTEROID_ADD_DELAY = 2, UFO_ADD_DELAY = 10;
+    const float ASTEROID_ADD_DELAY = 5, UFO_ADD_DELAY = 20;
     bool addedAsteroid = false, addedUfo = false;
 
     objectsToAdd.reserve(1);
