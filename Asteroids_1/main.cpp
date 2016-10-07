@@ -55,7 +55,7 @@ int main()
 
     objectsToAdd.reserve(1);
 
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Asteroids!");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Goutham Rajeev's Asteroids");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
     auto asteroidTexture = std::make_shared<sf::Texture>();
