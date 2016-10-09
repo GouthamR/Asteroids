@@ -4,11 +4,6 @@
 
 #include "vector.h"
 
-//Phys::Vector *Object::getDistanceVector(Object *other)
-//{
-//    return new Phys::Vector(other->xPos - this->xPos, other->yPos - this->yPos);
-//}
-
 Object::Object(const double &xPos, const double &yPos)
     : xPos(xPos)
     , yPos(yPos)
@@ -18,7 +13,7 @@ Object::Object(const double &xPos, const double &yPos)
 
 Object::~Object()
 {
-    std::cout << "Destruct Object: do nothing" << std::endl;
+    std::cout << "Destructing Object." << std::endl;
 }
 
 double Object::getX() const

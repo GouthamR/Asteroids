@@ -1,4 +1,4 @@
-// split these into individual imports
+// TODO: split these into individual imports
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
@@ -14,11 +14,19 @@
 #include <cmath>
 
 const double WINDOW_WIDTH = 600, WINDOW_HEIGHT = 600;
+const int ASTEROID_V_MAX = 100;
+const double MOVE_SPEED = 5;
+const double ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
+const double FRAMES_PER_SECOND = 60;
+const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
+const float ASTEROID_ADD_DELAY = 5;
+const float UFO_ADD_DELAY = 20;
+const int INIT_NUM_ASTEROIDS = 10;
+
 DrawableWorld *worldDrawer = new DrawableWorld(3,WINDOW_WIDTH,WINDOW_HEIGHT,true);
 auto bulletTexture = std::make_shared<sf::Texture>();
 std::shared_ptr<Spaceship> spaceship;
 auto objectsToAdd = std::vector<std::shared_ptr<DrawableObject>>();
-const int ASTEROID_V_MAX = 100;
 
 bool outOfBounds(Object *obj)
 {
@@ -28,7 +36,9 @@ bool outOfBounds(Object *obj)
 void addBullet(const double &xPos, const double &yPos)
 {
     // should NOT be called unless bullet texture loaded in main:
-    objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, spaceship->getX(), spaceship->getY(), &outOfBounds));
+    objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, bulletTexture, 
+                                                    spaceship->getX(), spaceship->getY(), 
+                                                    &outOfBounds));
 }
 
 int getRandInt(const int &min, const int &max)
@@ -38,75 +48,80 @@ int getRandInt(const int &min, const int &max)
 
 std::shared_ptr<Asteroid> createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture)
 {
-    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/50, getRandInt(30, 60), asteroidTexture);
+    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH), getRandInt(0, WINDOW_HEIGHT),
+                                                WINDOW_WIDTH/50, getRandInt(30, 60), asteroidTexture);
     asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
     return asteroid;
 }
 
+void controlSpaceship(const sf::Keyboard::Key &key_code)
+{
+    switch (key_code)
+    {
+        case sf::Keyboard::Up:
+            spaceship->accelerate(MOVE_SPEED);
+            break;
+        case sf::Keyboard::Down:
+            break;
+        case sf::Keyboard::Left:
+            spaceship->rotate(ROTATION_SPEED);
+            break;
+        case sf::Keyboard::Right:
+            spaceship->rotate(-ROTATION_SPEED);
+            break;
+        default:
+            break;
+    }
+}
+
 int main()
-{    
+{
     srand (time(NULL));
 
-    const double MOVE_SPEED = 5, ROTATION_SPEED = Phys::Vector::THETA_QUARTER/10;
-    const double FRAMES_PER_SECOND = 60;
-    const double PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
-    const float ASTEROID_ADD_DELAY = 5, UFO_ADD_DELAY = 20;
-    bool addedAsteroid = false, addedUfo = false;
+    bool addedAsteroid = false;
+    bool addedUfo = false;
 
     objectsToAdd.reserve(1);
 
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Goutham Rajeev's Asteroids");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), 
+                                                    "Goutham Rajeev's Asteroids");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
     auto asteroidTexture = std::make_shared<sf::Texture>();
     auto spaceshipTexture = std::make_shared<sf::Texture>();
     auto ufoTexture = std::make_shared<sf::Texture>();
-    if (!asteroidTexture->loadFromFile("asteroid.png") || !spaceshipTexture->loadFromFile("spaceship.png")
-           || !ufoTexture->loadFromFile("ufo.png") || !bulletTexture->loadFromFile("bullet.png"))
+    if (!asteroidTexture->loadFromFile("asteroid.png") 
+        || !spaceshipTexture->loadFromFile("spaceship.png")
+        || !ufoTexture->loadFromFile("ufo.png") 
+        || !bulletTexture->loadFromFile("bullet.png"))
     {
         std::cout << "ERROR: Unable to load images!" << std::endl;
         return 1;
     }
 
-    spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2,WINDOW_WIDTH/2,WINDOW_WIDTH/40, spaceshipTexture);
+    spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2, WINDOW_WIDTH/2, 
+                                            WINDOW_WIDTH/40, spaceshipTexture);
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < INIT_NUM_ASTEROIDS; ++i)
     {
         worldDrawer->add(createAsteroid(asteroidTexture));
     }
 
-    sf::Clock frameRateClock, physClock, timeElapsedClock; // starts both automatically
+    sf::Clock frameRateClock, physClock, timeElapsedClock; // starts all timers
     while (window->isOpen())
     {
         sf::Event event;
         while (window->pollEvent(event))
         {
-            // move the following into a method. And create Game class for this stuff.
             if (event.type == sf::Event::Closed)
             {
                 window->close();
             }
             else if(event.type == sf::Event::KeyPressed)
             {
-                switch (event.key.code)
-                {
-                    case sf::Keyboard::Up:
-                        spaceship->accelerate(MOVE_SPEED);
-//                        spaceship->setY(spaceship->getY() + 0.5);
-                        break;
-                    case sf::Keyboard::Down:
-                        break;
-                    case sf::Keyboard::Left:
-                        spaceship->rotate(ROTATION_SPEED);
-                        break;
-                    case sf::Keyboard::Right:
-                        spaceship->rotate(-ROTATION_SPEED);
-                        break;
-                    default:
-                        break;
-                }
+                controlSpaceship(event.key.code);
             }
         }
 
@@ -125,6 +140,7 @@ int main()
             sf::sleep(sleepTime);
 
         float secondsElapsed = timeElapsedClock.getElapsedTime().asSeconds();
+        // TODO: parametrize these:
         if(secondsElapsed > ASTEROID_ADD_DELAY)
         {
             if(!addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) < 1)
@@ -151,7 +167,9 @@ int main()
         }
 
         for(auto iter = objectsToAdd.begin(); iter != objectsToAdd.end(); ++iter)
+        {
             worldDrawer->add(*iter);
+        }
         objectsToAdd.clear();
 
         worldDrawer->deleteMarked();
@@ -163,8 +181,6 @@ int main()
 
     delete window;
     delete worldDrawer;
-//    delete asteroidTexture;
-//    delete spaceshipTexture;
 
     return 0;
 }
