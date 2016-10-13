@@ -16,6 +16,7 @@ class Spaceship;
 class DrawableObject;
 class Object;
 class Asteroid;
+class Ufo;
 
 class Game
 {
@@ -30,6 +31,7 @@ private:
 	const static float ASTEROID_ADD_DELAY;
 	const static float UFO_ADD_DELAY;
 	const static int INIT_NUM_ASTEROIDS;
+	const static float ADD_DELAY_MARGIN;
 	DrawableWorld *worldDrawer;
 	BulletAdder bulletAdder;
 	BoundsChecker boundsChecker;
@@ -38,7 +40,10 @@ private:
 	std::vector<std::shared_ptr<DrawableObject>> objectsToAdd;
 	int getRandInt(const int &min, const int &max);
 	std::shared_ptr<Asteroid> createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture);
+	std::shared_ptr<Ufo> createUfo(const std::shared_ptr<sf::Texture> &ufoTexture);
 	void controlSpaceship(const sf::Keyboard::Key &key_code);
+	bool delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay, 
+					bool &toAddThisCycle);
 public:
 	Game();
 	~Game();

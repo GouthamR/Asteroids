@@ -21,6 +21,7 @@ const double Game::PHYS_FRAMES_PER_SECOND = FRAMES_PER_SECOND * 2;
 const float Game::ASTEROID_ADD_DELAY = 5;
 const float Game::UFO_ADD_DELAY = 20;
 const int Game::INIT_NUM_ASTEROIDS = 10;
+const float Game::ADD_DELAY_MARGIN = 1;
 
 int Game::getRandInt(const int &min, const int &max)
 {
@@ -33,6 +34,18 @@ std::shared_ptr<Asteroid> Game::createAsteroid(const std::shared_ptr<sf::Texture
                                                 WINDOW_WIDTH/50, getRandInt(30, 60), asteroidTexture);
     asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
     return asteroid;
+}
+
+std::shared_ptr<Ufo> Game::createUfo(const std::shared_ptr<sf::Texture> &ufoTexture)
+{
+    int xPos = getRandInt(0, WINDOW_WIDTH);
+    int yPos = getRandInt(0, WINDOW_HEIGHT);
+    double radius = WINDOW_WIDTH/40;
+    double angle = Phys::Vector::THETA_QUARTER*getRandInt(0, 3);
+    double bulletStartTime = 0;
+    auto ufo = std::make_shared<Ufo>(xPos,yPos,radius,angle,bulletStartTime,
+                                        bulletAdder,boundsChecker, ufoTexture);
+    return ufo;
 }
 
 void Game::controlSpaceship(const sf::Keyboard::Key &key_code)
@@ -52,6 +65,26 @@ void Game::controlSpaceship(const sf::Keyboard::Key &key_code)
             break;
         default:
             break;
+    }
+}
+
+bool Game::delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay, 
+                        bool &toAddThisCycle)
+{
+    float secondsElapsed = timeElapsedClock.getElapsedTime().asSeconds();
+    bool withinAddTimeRange = (fmod(secondsElapsed, add_delay) < ADD_DELAY_MARGIN);
+    if(withinAddTimeRange && toAddThisCycle)
+    {
+        toAddThisCycle = false;
+        return true;
+    }
+    else
+    {
+        if(!withinAddTimeRange)
+        {
+            toAddThisCycle = true;
+        }
+        return false;
     }
 }
 
@@ -82,8 +115,9 @@ int Game::run()
 {
 	srand (time(NULL));
 
-    bool addedAsteroid = false;
-    bool addedUfo = false;
+    // initially false to skip adding at beginning:
+    bool toAddAsteroid = false;
+    bool toAddUfo = false;
 
     objectsToAdd.reserve(1);
 
@@ -129,9 +163,10 @@ int Game::run()
             }
         }
 
-        if(physClock.getElapsedTime().asSeconds() >= 1/PHYS_FRAMES_PER_SECOND)
+        float physClockElapsedTime = physClock.getElapsedTime().asSeconds();
+        if(physClockElapsedTime >= 1/PHYS_FRAMES_PER_SECOND)
         {
-            worldDrawer->updateAll(physClock.getElapsedTime().asSeconds());
+            worldDrawer->updateAll(physClockElapsedTime);
             physClock.restart();
         }
 
@@ -139,35 +174,20 @@ int Game::run()
         worldDrawer->drawAll(window);
         window->display();
 
-        sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - (frameRateClock.getElapsedTime().asSeconds()));
+        float frameRateClockElapsed = frameRateClock.getElapsedTime().asSeconds();
+        sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - frameRateClockElapsed);
         if(sleepTime.asSeconds() > 0)
             sf::sleep(sleepTime);
 
-        float secondsElapsed = timeElapsedClock.getElapsedTime().asSeconds();
-        // TODO: parametrize these:
-        if(secondsElapsed > ASTEROID_ADD_DELAY)
+        if(delayedAdd(timeElapsedClock, ASTEROID_ADD_DELAY, toAddAsteroid))
         {
-            if(!addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) < 1)
-            {
-                objectsToAdd.push_back(createAsteroid(asteroidTexture));
-                addedAsteroid = true;
-            }
-            else if(addedAsteroid && fmod(secondsElapsed, ASTEROID_ADD_DELAY) >= 1)
-            {
-                addedAsteroid = false;
-            }
+            std::cout << "Adding Asteroid" << std::endl;
+            objectsToAdd.push_back(createAsteroid(asteroidTexture));            
         }
-        if(secondsElapsed > UFO_ADD_DELAY)
+        if(delayedAdd(timeElapsedClock, UFO_ADD_DELAY, toAddUfo))
         {
-            if(!addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) < 1)
-            {
-                objectsToAdd.push_back(std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,bulletAdder,boundsChecker, ufoTexture));
-                addedUfo = true;
-            }
-            else if(addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) >= 1)
-            {
-                addedUfo = false;
-            }
+            std::cout << "Adding Ufo" << std::endl;
+            objectsToAdd.push_back(createUfo(ufoTexture));
         }
 
         for(auto iter = objectsToAdd.begin(); iter != objectsToAdd.end(); ++iter)
