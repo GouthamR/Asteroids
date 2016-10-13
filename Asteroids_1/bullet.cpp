@@ -1,18 +1,16 @@
 #include "bullet.h"
 
 #include "spaceship.h"
-#include "world.h"
 
 const double Bullet::SPEED = 300;
 
 Bullet::Bullet(const double &xPos, const double &yPos, const double &radius,
-               std::shared_ptr<sf::Texture> texture,
-               const double &targetXPos, const double &targetYPos,
-               World *world)
+               std::shared_ptr<sf::Texture> texture, const double &targetXPos,
+               const double &targetYPos, BoundsChecker &boundsChecker)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
-    , world(world)
+    , boundsChecker(boundsChecker)
 {
     setVelocityXY(targetXPos - xPos, targetYPos - yPos); // set angle
     setVelocityPolar(SPEED, getVelocity().getTheta());
@@ -20,7 +18,7 @@ Bullet::Bullet(const double &xPos, const double &yPos, const double &radius,
 
 void Bullet::update(const double &time)
 {
-    if(world->isOutOfBounds(this))
+    if(boundsChecker.isOutOfBounds(this))
         markToDelete();
 }
 

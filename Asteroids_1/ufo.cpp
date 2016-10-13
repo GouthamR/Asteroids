@@ -1,8 +1,6 @@
 #include "ufo.h"
 
 #include "spaceship.h"
-#include "world.h"
-#include "bulletadder.h"
 
 const double Ufo::SPEED = 50;
 const double Ufo::BULLET_TIME = 1;
@@ -14,14 +12,14 @@ void Ufo::shootBullet()
 
 Ufo::Ufo(const double &xPos, const double &yPos, const double &radius,
          const double &angle, const double &bulletStartTime,
-         BulletAdder &bulletAdder, World *world, 
+         BulletAdder &bulletAdder, BoundsChecker &boundsChecker,
          std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
     , currentBulletTime(bulletStartTime)
     , bulletAdder(bulletAdder)
-    , world(world)
+    , boundsChecker(boundsChecker)
 {
     setVelocityPolar(SPEED,angle);
 }
@@ -35,7 +33,7 @@ void Ufo::update(const double &time)
         currentBulletTime = 0;
     }
 
-    if(world->isOutOfBounds(this))
+    if(boundsChecker.isOutOfBounds(this))
         markToDelete();
 }
 

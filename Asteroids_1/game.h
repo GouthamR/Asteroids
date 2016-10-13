@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "bulletadder.h"
+#include "boundschecker.h"
 
 class DrawableWorld;
 class Spaceship;
@@ -31,6 +32,7 @@ private:
 	const static int INIT_NUM_ASTEROIDS;
 	DrawableWorld *worldDrawer;
 	BulletAdder bulletAdder;
+	BoundsChecker boundsChecker;
 	std::shared_ptr<sf::Texture> bulletTexture;
 	std::shared_ptr<Spaceship> spaceship;
 	std::vector<std::shared_ptr<DrawableObject>> objectsToAdd;

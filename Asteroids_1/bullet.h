@@ -3,17 +3,17 @@
 
 #include "circleobject.h"
 #include "drawableimageobject.h"
-
-class World;
+#include "boundschecker.h"
 
 class Bullet : public DrawableImageObject, public CircleObject
 {
 private:
     const static double SPEED;
-    World *world;
+    BoundsChecker boundsChecker;
 public:
-    Bullet(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture,
-           const double &targetXPos, const double &targetYPos, World *world);
+    Bullet(const double &xPos, const double &yPos, const double &radius, 
+    		std::shared_ptr<sf::Texture> texture, const double &targetXPos, 
+    		const double &targetYPos, BoundsChecker &boundsChecker);
     virtual void update(const double &time);
     #include "DispatchFnsMacro.h"
 };

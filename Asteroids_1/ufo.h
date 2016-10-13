@@ -4,6 +4,7 @@
 #include "circleobject.h"
 #include "drawableimageobject.h"
 #include "bulletadder.h"
+#include "boundschecker.h"
 
 class DrawableObject;
 class World;
@@ -16,11 +17,11 @@ private:
     double currentBulletTime;
     BulletAdder bulletAdder;
     void shootBullet();
-    World *world;
+    BoundsChecker boundsChecker;
 public:
     Ufo(const double &xPos, const double &yPos, const double &radius,
         const double &angle, const double &bulletStartTime,
-        BulletAdder &bulletAdder, World *world,
+        BulletAdder &bulletAdder, BoundsChecker &boundsChecker,
         std::shared_ptr<sf::Texture> texture);
     virtual void update(const double &time);
     #include "DispatchFnsMacro.h"
