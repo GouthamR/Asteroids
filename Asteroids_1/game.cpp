@@ -9,6 +9,7 @@
 #include "bullet.h"
 
 #include <iostream>
+#include <stdexcept>
 #include <cmath>
 
 const double Game::WINDOW_WIDTH = 600;
@@ -89,17 +90,32 @@ bool Game::delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay,
 }
 
 Game::Game()
-	: worldDrawer(new DrawableWorld(3, WINDOW_WIDTH, WINDOW_HEIGHT, true))
+    : worldDrawer(new DrawableWorld(3, WINDOW_WIDTH, WINDOW_HEIGHT, true))
     , bulletAdder(BulletAdder(this))
     , boundsChecker(BoundsChecker(worldDrawer))
-	, bulletTexture(std::make_shared<sf::Texture>())
-	, spaceship(NULL)
-	, objectsToAdd(std::vector<std::shared_ptr<DrawableObject>>())
-{}
+    , bulletTexture(std::make_shared<sf::Texture>())
+    , asteroidTexture(std::make_shared<sf::Texture>())
+    , spaceshipTexture(std::make_shared<sf::Texture>())
+    , ufoTexture(std::make_shared<sf::Texture>())
+    , spaceship(NULL)
+    , objectsToAdd(std::vector<std::shared_ptr<DrawableObject>>())
+{
+    srand(time(NULL));
+    
+    objectsToAdd.reserve(1);
+
+    if (!asteroidTexture->loadFromFile("asteroid.png") 
+        || !spaceshipTexture->loadFromFile("spaceship.png")
+        || !ufoTexture->loadFromFile("ufo.png") 
+        || !bulletTexture->loadFromFile("bullet.png"))
+    {
+        throw std::runtime_error("Images not loaded");
+    }
+}
 
 Game::~Game()
 {
-	delete worldDrawer;
+    delete worldDrawer;
 }
 
 void Game::addBullet(const double &xPos, const double &yPos)
@@ -111,31 +127,11 @@ void Game::addBullet(const double &xPos, const double &yPos)
                                                             this->boundsChecker));
 }
 
-int Game::run()
+void Game::run()
 {
-	srand (time(NULL));
-
-    // initially false to skip adding at beginning:
-    bool toAddAsteroid = false;
-    bool toAddUfo = false;
-
-    objectsToAdd.reserve(1);
-
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), 
                                                     "Goutham Rajeev's Asteroids");
     window->setFramerateLimit(FRAMES_PER_SECOND);
-
-    auto asteroidTexture = std::make_shared<sf::Texture>();
-    auto spaceshipTexture = std::make_shared<sf::Texture>();
-    auto ufoTexture = std::make_shared<sf::Texture>();
-    if (!asteroidTexture->loadFromFile("asteroid.png") 
-        || !spaceshipTexture->loadFromFile("spaceship.png")
-        || !ufoTexture->loadFromFile("ufo.png") 
-        || !bulletTexture->loadFromFile("bullet.png"))
-    {
-        std::cout << "ERROR: Unable to load images!" << std::endl;
-        return 1;
-    }
 
     spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2, WINDOW_WIDTH/2, 
                                             WINDOW_WIDTH/40, spaceshipTexture);
@@ -146,6 +142,10 @@ int Game::run()
     {
         worldDrawer->add(createAsteroid(asteroidTexture));
     }
+
+    // false, so will not add at beginning:
+    bool toAddAsteroid = false;
+    bool toAddUfo = false;
 
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts all timers
     while (window->isOpen())
@@ -204,6 +204,4 @@ int Game::run()
     std::cout << "Ending." << std::endl;
 
     delete window;
-
-	return 0;
 }

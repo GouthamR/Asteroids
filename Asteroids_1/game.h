@@ -36,6 +36,9 @@ private:
 	BulletAdder bulletAdder;
 	BoundsChecker boundsChecker;
 	std::shared_ptr<sf::Texture> bulletTexture;
+	std::shared_ptr<sf::Texture> asteroidTexture;
+	std::shared_ptr<sf::Texture> spaceshipTexture;
+	std::shared_ptr<sf::Texture> ufoTexture;
 	std::shared_ptr<Spaceship> spaceship;
 	std::vector<std::shared_ptr<DrawableObject>> objectsToAdd;
 	int getRandInt(const int &min, const int &max);
@@ -48,7 +51,7 @@ public:
 	Game();
 	~Game();
 	void addBullet(const double &xPos, const double &yPos); // should NOT be called before run (since bullet texture is loaded in run)
-	int run();
+	void run();
 };
 
 #endif // GAME_H
