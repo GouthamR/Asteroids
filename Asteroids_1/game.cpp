@@ -31,9 +31,14 @@ int Game::getRandInt(const int &min, const int &max)
 
 std::shared_ptr<Asteroid> Game::createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture)
 {
-    auto asteroid = std::make_shared<Asteroid>(getRandInt(0, WINDOW_WIDTH), getRandInt(0, WINDOW_HEIGHT),
-                                                WINDOW_WIDTH/50, getRandInt(30, 60), asteroidTexture);
-    asteroid->setVelocityXY(getRandInt(0, ASTEROID_V_MAX), getRandInt(0, ASTEROID_V_MAX));
+    int xPos = getRandInt(0, WINDOW_WIDTH);
+    int yPos = getRandInt(0, WINDOW_HEIGHT);
+    double radius = WINDOW_WIDTH/50;
+    int angle = getRandInt(30, 60);
+    int velocityX = getRandInt(0, ASTEROID_V_MAX);
+    int velocityY = getRandInt(0, ASTEROID_V_MAX);
+    auto asteroid = std::make_shared<Asteroid>(xPos, yPos, radius, angle, asteroidTexture);
+    asteroid->setVelocityXY(velocityX, velocityY);
     return asteroid;
 }
 
@@ -111,6 +116,10 @@ Game::Game()
     {
         throw std::runtime_error("Images not loaded");
     }
+
+    spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2, WINDOW_WIDTH/2, 
+                                            WINDOW_WIDTH/40, spaceshipTexture);
+    spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
 }
 
 Game::~Game()
@@ -120,11 +129,12 @@ Game::~Game()
 
 void Game::addBullet(const double &xPos, const double &yPos)
 {
-    this->objectsToAdd.push_back(std::make_shared<Bullet>(xPos, yPos, 4, 
-                                                            this->bulletTexture, 
-                                                            this->spaceship->getX(), 
-                                                            this->spaceship->getY(), 
-                                                            this->boundsChecker));
+    auto bullet = std::make_shared<Bullet>(xPos, yPos, 4, 
+                                            this->bulletTexture, 
+                                            this->spaceship->getX(), 
+                                            this->spaceship->getY(), 
+                                            this->boundsChecker);
+    this->objectsToAdd.push_back(bullet);
 }
 
 void Game::run()
@@ -133,11 +143,7 @@ void Game::run()
                                                     "Goutham Rajeev's Asteroids");
     window->setFramerateLimit(FRAMES_PER_SECOND);
 
-    spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2, WINDOW_WIDTH/2, 
-                                            WINDOW_WIDTH/40, spaceshipTexture);
-    spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
     worldDrawer->add(spaceship);
-
     for (int i = 0; i < INIT_NUM_ASTEROIDS; ++i)
     {
         worldDrawer->add(createAsteroid(asteroidTexture));

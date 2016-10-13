@@ -50,7 +50,7 @@ private:
 public:
 	Game();
 	~Game();
-	void addBullet(const double &xPos, const double &yPos); // should NOT be called before run (since bullet texture is loaded in run)
+	void addBullet(const double &xPos, const double &yPos);
 	void run();
 };
 
