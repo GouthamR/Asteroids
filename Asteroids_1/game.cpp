@@ -57,6 +57,7 @@ void Game::controlSpaceship(const sf::Keyboard::Key &key_code)
 
 Game::Game()
 	: worldDrawer(new DrawableWorld(3, WINDOW_WIDTH, WINDOW_HEIGHT, true))
+    , bulletAdder(BulletAdder(this))
 	, bulletTexture(std::make_shared<sf::Texture>())
 	, spaceship(NULL)
 	, objectsToAdd(std::vector<std::shared_ptr<DrawableObject>>())
@@ -157,7 +158,7 @@ int Game::run()
         {
             if(!addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) < 1)
             {
-                objectsToAdd.push_back(std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,this,worldDrawer, ufoTexture));
+                objectsToAdd.push_back(std::make_shared<Ufo>(getRandInt(0, WINDOW_WIDTH),getRandInt(0, WINDOW_HEIGHT),WINDOW_WIDTH/40,Phys::Vector::THETA_QUARTER*getRandInt(0, 3),0,bulletAdder,worldDrawer, ufoTexture));
                 addedUfo = true;
             }
             else if(addedUfo && fmod(secondsElapsed, UFO_ADD_DELAY) >= 1)

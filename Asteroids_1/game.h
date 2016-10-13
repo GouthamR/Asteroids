@@ -8,6 +8,8 @@
 #include <memory>
 #include <vector>
 
+#include "bulletadder.h"
+
 class DrawableWorld;
 class Spaceship;
 class DrawableObject;
@@ -28,6 +30,7 @@ private:
 	const static float UFO_ADD_DELAY;
 	const static int INIT_NUM_ASTEROIDS;
 	DrawableWorld *worldDrawer;
+	BulletAdder bulletAdder;
 	std::shared_ptr<sf::Texture> bulletTexture;
 	std::shared_ptr<Spaceship> spaceship;
 	std::vector<std::shared_ptr<DrawableObject>> objectsToAdd;

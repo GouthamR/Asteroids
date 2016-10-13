@@ -2,26 +2,25 @@
 
 #include "spaceship.h"
 #include "world.h"
-#include "game.h"
+#include "bulletadder.h"
 
 const double Ufo::SPEED = 50;
 const double Ufo::BULLET_TIME = 1;
 
 void Ufo::shootBullet()
 {
-    game->addBullet(this->getX(), this->getY());
+    bulletAdder.addBullet(this->getX(), this->getY());
 }
 
 Ufo::Ufo(const double &xPos, const double &yPos, const double &radius,
          const double &angle, const double &bulletStartTime,
-         Game *game,
-         World *world,
+         BulletAdder &bulletAdder, World *world, 
          std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
     , currentBulletTime(bulletStartTime)
-    , game(game)
+    , bulletAdder(bulletAdder)
     , world(world)
 {
     setVelocityPolar(SPEED,angle);
