@@ -139,9 +139,8 @@ void Game::addBullet(const double &xPos, const double &yPos)
 
 void Game::run()
 {
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), 
-                                                    "Goutham Rajeev's Asteroids");
-    window->setFramerateLimit(FRAMES_PER_SECOND);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Goutham R's Asteroids");
+    window.setFramerateLimit(FRAMES_PER_SECOND);
 
     worldDrawer->add(spaceship);
     for (int i = 0; i < INIT_NUM_ASTEROIDS; ++i)
@@ -154,14 +153,14 @@ void Game::run()
     bool toAddUfo = false;
 
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts all timers
-    while (window->isOpen())
+    while (window.isOpen())
     {
         sf::Event event;
-        while (window->pollEvent(event))
+        while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
             {
-                window->close();
+                window.close();
             }
             else if(event.type == sf::Event::KeyPressed)
             {
@@ -176,9 +175,9 @@ void Game::run()
             physClock.restart();
         }
 
-        window->clear();
-        worldDrawer->drawAll(window);
-        window->display();
+        window.clear();
+        worldDrawer->drawAll(&window);
+        window.display();
 
         float frameRateClockElapsed = frameRateClock.getElapsedTime().asSeconds();
         sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - frameRateClockElapsed);
@@ -208,6 +207,4 @@ void Game::run()
     }
 
     std::cout << "Ending." << std::endl;
-
-    delete window;
 }
