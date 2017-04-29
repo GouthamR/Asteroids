@@ -1,3 +1,5 @@
 *.o
 *.exe
 *.bat
+.vscode
+SFML-2.1/
