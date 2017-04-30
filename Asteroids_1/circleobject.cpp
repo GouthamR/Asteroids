@@ -1,6 +1,5 @@
 #include "circleobject.h"
 
-#include <iostream>
 #include <cmath>
 #include "vector.h"
 

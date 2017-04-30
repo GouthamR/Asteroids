@@ -3,8 +3,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include <iostream>
-
 DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos,
                                          const double &xSize, const double &ySize,
                                          std::shared_ptr<sf::Texture> texture)
