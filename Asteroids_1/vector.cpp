@@ -60,7 +60,7 @@ double Vector::getY() const
     return r*sin(t);
 }
 
-double Vector::getR() const // can't inline this.
+double Vector::getR() const
 {
     return r;
 }

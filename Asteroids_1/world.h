@@ -1,8 +1,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <vector> // std::vector
-#include <memory> // std::shared_ptr
+#include <vector>
+#include <memory>
 
 class Object;
 

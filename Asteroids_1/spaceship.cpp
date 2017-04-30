@@ -3,7 +3,7 @@
 #include "vector.h"
 #include "ufo.h"
 #include "bullet.h"
-#include<SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <string>
 
 Spaceship::Spaceship(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
@@ -32,7 +32,7 @@ void Spaceship::incrementCollisions()
 
     sf::Color color;
     switch (numCollisions)
-    { // make enum for this instead, getting color from index = numCollisions
+    { // TODO: make enum for this instead, getting color from index = numCollisions
         case 1: color = sf::Color(255, 150, 0); break;
         case 2: color = sf::Color(255, 75, 0); break;
         case 3: color = sf::Color(255, 0, 0); break;
@@ -54,6 +54,7 @@ void Spaceship::handleCollision(Asteroid *first)
 
 void Spaceship::handleCollision(Spaceship *first)
 {
+    // TODO: throw an exception here.
     // SHOULD NEVER BE CALLED
 }
 
@@ -94,6 +95,7 @@ bool Spaceship::isColliding(Bullet *first)
 
 void Spaceship::draw(sf::RenderWindow *window)
 {
-    sprite->setRotation(-(orientation - Phys::Vector::THETA_QUARTER)/3.14*180); // orientation does not match with sprite atm
+    // TODO: orientation does not currently match with sprite
+    sprite->setRotation(-(orientation - Phys::Vector::THETA_QUARTER)/3.14*180); 
     DrawableImageObject::draw(window);
 }

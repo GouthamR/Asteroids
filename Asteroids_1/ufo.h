@@ -12,7 +12,7 @@ class World;
 class Ufo : public DrawableImageObject, public CircleObject
 {
 private:
-    // all time values in seconds
+    // Note: all time values in units of seconds
     const static double SPEED, BULLET_TIME;
     double currentBulletTime;
     BulletAdder bulletAdder;

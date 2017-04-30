@@ -6,20 +6,20 @@
 namespace Phys
 {
 
-// NOTE THAT CLASS USES RADIANS AtTheMoment. write inline method for conversion?
-// CHECK implementation for set r.
-// add empty line below declaration of method within access specifier public/etc.?
-// Add operators!
-
+// Note: this class uses RADIANS, not degrees.
 class Vector
 {
 private:
     const static double THETA_MIN, THETA_MAX;
-    double r,t; // r = magnitude, t = theta = angle
+
+    double r; // magnitude
+    double t; // theta, angle
+
     static double getR(const double &x, const double &y);
     static double getT(const double &x, const double &y);
 public:
     const static double THETA_QUARTER, THETA_RIGHT, THETA_UP, THETA_LEFT, THETA_DOWN;
+
     Vector();
     Vector(const double &x, const double &y);
     static Vector* createPolar(const double &magnitude, const double &angle);

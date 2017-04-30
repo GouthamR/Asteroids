@@ -55,7 +55,7 @@ void Object::setVelocityPolar(const double &speed, const double &angle)
 
 void Object::setVelocity(const Phys::Vector newVelocity)
 {
-    velocity = newVelocity; // works?
+    velocity = newVelocity;
 }
 
 void Object::markToDelete()

@@ -1,8 +1,8 @@
 #include "drawableimageobject.h"
 
-#include<SFML/Graphics/Sprite.hpp>
-#include<SFML/Graphics/Texture.hpp>
-#include<SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 #include <iostream>
 
@@ -18,14 +18,12 @@ DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos,
     sf::Vector2u texSize = texture->getSize();
     sprite->setOrigin(texSize.x/2, texSize.y/2);
     sprite->setScale((float)xSize/texSize.x, (float)ySize/texSize.y);
-//  sprite->setColor(sf::Color::Green);
 }
 
 
 DrawableImageObject::~DrawableImageObject()
 {
-    delete sprite; // crash if still null if image not loaded?
-//    delete texture;
+    delete sprite;
 }
 
 void DrawableImageObject::draw(sf::RenderWindow *window)
