@@ -5,6 +5,7 @@
 #include "bullet.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <string>
+#include <memory>
 
 Spaceship::Spaceship(const double &xPos, const double &yPos, const double &radius, std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
@@ -21,11 +22,10 @@ void Spaceship::rotate(const double &angle)
 
 void Spaceship::accelerate(const double &magnitude)
 {
-    Phys::Vector *accel = Phys::Vector::createPolar(magnitude,orientation);
+    std::unique_ptr<Phys::Vector> accel{Phys::Vector::createPolar(magnitude,orientation)};
     Phys::Vector newVelocity = getVelocity();
     newVelocity += *accel;
     setVelocity(newVelocity);
-    delete accel;
 }
 
 void Spaceship::incrementCollisions()
