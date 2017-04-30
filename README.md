@@ -10,15 +10,15 @@ The code was written for SFML 2.1 .
 2. Add the SFML-2.1 directory under the project root directory. The directory structure should resemble this:    
 
 
-    |---Asteroids
-    |   |---Asteroids_1
-    |   |---SFML-2.1
-    |       |---bin
-    |       |---include
-    |       |   |---SFML
-    |       |       |---Audio
-    |       |       |---Graphics
-    |       |       |---Network
-    |       |       |---System
-    |       |       |---Window
-    |       |---lib
+        |---Asteroids
+        |   |---Asteroids_1
+        |   |---SFML-2.1
+        |       |---bin
+        |       |---include
+        |       |   |---SFML
+        |       |       |---Audio
+        |       |       |---Graphics
+        |       |       |---Network
+        |       |       |---System
+        |       |       |---Window
+        |       |---lib
