@@ -8,8 +8,8 @@
 #include <algorithm>
 
 DrawableWorld::DrawableWorld(const int &numObjects, const int &width, const int &height, bool wrap)
-    : World(numObjects,width,height, wrap)
-    , drawableObjects(std::vector<std::shared_ptr<DrawableObject>>())
+    : World{numObjects,width,height, wrap}
+    // default-construct drawableObjects
 {
     drawableObjects.reserve(numObjects);
 }

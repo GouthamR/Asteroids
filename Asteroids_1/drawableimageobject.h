@@ -22,7 +22,7 @@ public:
     DrawableImageObject(const double &xPos, const double &yPos,
                         const double &xSize, const double &ySize,
                         std::shared_ptr<sf::Texture> texture);
-    virtual void draw(sf::RenderWindow *window);
+    virtual void draw(sf::RenderWindow *window) override;
 };
 
 #endif // DRAWABLEIMAGEOBJECT_H

@@ -46,10 +46,10 @@ void World::deleteMarked()
 }
 
 World::World(const int &numObjects, const int &width, const int &height, bool wrap)
-    : objects(std::vector<std::shared_ptr<Object>>())
-    , width(width)
-    , height(height)
-    , wrap(wrap)
+    // default-construct objects member
+    : width{width}
+    , height{height}
+    , wrap{wrap}
 {
     objects.reserve(numObjects);
 }

@@ -5,10 +5,10 @@
 #include "vector.h"
 
 Object::Object(const double &xPos, const double &yPos)
-    : xPos(xPos)
-    , yPos(yPos)
-    , toDelete(false)
-    , velocity()
+    : xPos{xPos}
+    , yPos{yPos}
+    , toDelete{false}
+    // default-construct velocity
 {}
 
 Object::~Object()

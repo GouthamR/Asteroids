@@ -11,8 +11,8 @@ Spaceship::Spaceship(const double &xPos, const double &yPos, const double &radiu
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
-    , orientation(Phys::Vector::THETA_UP)
-    , numCollisions(0)
+    , orientation{Phys::Vector::THETA_UP}
+    , numCollisions{0}
 {}
 
 void Spaceship::rotate(const double &angle)

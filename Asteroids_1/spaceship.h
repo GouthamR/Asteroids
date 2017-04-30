@@ -16,7 +16,7 @@ public:
     void accelerate(const double &magnitude);
     void incrementCollisions();
     #include "DispatchFnsMacro.h"
-    virtual void draw(sf::RenderWindow *window);
+    virtual void draw(sf::RenderWindow *window) override;
 };
 
 #endif // SPACESHIP_H

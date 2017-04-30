@@ -63,8 +63,8 @@ void CircleObject::collision2D(double m1, double m2, double R,
 }
 
 CircleObject::CircleObject(const double &xPos, const double &yPos, const double &radius)
-    : Object(xPos, yPos)
-    , radius(radius)
+    : Object{xPos, yPos}
+    , radius{radius}
 {}
 
 double CircleObject::getRadius() const

@@ -25,13 +25,13 @@ double Vector::getT(const double &x, const double &y)
 }
 
 Vector::Vector()
-    : r(0)
-    , t(0)
+    : r{0}
+    , t{0}
 {}
 
 Vector::Vector(const double &x, const double &y)
-    : r(getR(x,y))
-    , t(getT(x,y))
+    : r{getR(x,y)}
+    , t{getT(x,y)}
 {}
 
 Vector* Vector::createPolar(const double &magnitude, const double &angle)

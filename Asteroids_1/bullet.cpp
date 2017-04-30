@@ -10,7 +10,7 @@ Bullet::Bullet(const double &xPos, const double &yPos, const double &radius,
     : Object(xPos, yPos)
     , DrawableImageObject(xPos, yPos, radius*2, radius*2, texture)
     , CircleObject(xPos, yPos, radius)
-    , boundsChecker(boundsChecker)
+    , boundsChecker{boundsChecker}
 {
     setVelocityXY(targetXPos - xPos, targetYPos - yPos); // set angle
     setVelocityPolar(SPEED, getVelocity().getTheta());

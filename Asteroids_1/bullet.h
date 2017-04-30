@@ -14,7 +14,7 @@ public:
     Bullet(const double &xPos, const double &yPos, const double &radius, 
     		std::shared_ptr<sf::Texture> texture, const double &targetXPos, 
     		const double &targetYPos, BoundsChecker &boundsChecker);
-    virtual void update(const double &time);
+    virtual void update(const double &time) override;
     #include "DispatchFnsMacro.h"
 };
 

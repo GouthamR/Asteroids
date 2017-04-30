@@ -10,8 +10,8 @@ DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos,
                                          std::shared_ptr<sf::Texture> texture)
     : Object(xPos, yPos)
     , DrawableObject(xPos, yPos)
-    , texture(texture)
-    , sprite(*texture)
+    , texture{texture}
+    , sprite{*texture}
 {
     sf::Vector2u texSize = texture->getSize();
     sprite.setOrigin(texSize.x/2, texSize.y/2);

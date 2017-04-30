@@ -28,8 +28,8 @@ public:
     void handleCircleCollision(double thisMass, double otherMass, CircleObject *other);
     void handleCircleCollision(CircleObject *other);
     bool isCircleColliding(CircleObject *other);
-    virtual double getWidth();
-    virtual double getHeight();
+    virtual double getWidth() override;
+    virtual double getHeight() override;
 };
 
 #endif // CIRCLEOBJECT_H

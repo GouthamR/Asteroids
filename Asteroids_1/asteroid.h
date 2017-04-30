@@ -11,7 +11,7 @@ private:
     double timeElapsed;
 public:
     Asteroid(const double &xPos, const double &yPos, const double &radius, const double &lifetime, std::shared_ptr<sf::Texture> texture);
-    virtual void update(const double &time);
+    virtual void update(const double &time) override;
     #include "DispatchFnsMacro.h"
 };
 

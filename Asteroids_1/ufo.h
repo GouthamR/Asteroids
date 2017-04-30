@@ -23,7 +23,7 @@ public:
         const double &angle, const double &bulletStartTime,
         BulletAdder &bulletAdder, BoundsChecker &boundsChecker,
         std::shared_ptr<sf::Texture> texture);
-    virtual void update(const double &time);
+    virtual void update(const double &time) override;
     #include "DispatchFnsMacro.h"
 };
 #endif // UFO_H

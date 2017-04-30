@@ -9,5 +9,5 @@ sf::Vector2f *DrawableObject::getWindowCoordinatesPosition(sf::RenderWindow *win
 }
 
 DrawableObject::DrawableObject(const double &xPos, const double &yPos)
-    : Object(xPos, yPos)
+    : Object{xPos, yPos}
 {}

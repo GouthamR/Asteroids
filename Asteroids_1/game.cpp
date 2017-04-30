@@ -96,14 +96,14 @@ bool Game::delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay,
 
 Game::Game()
     : worldDrawer(new DrawableWorld(3, WINDOW_WIDTH, WINDOW_HEIGHT, true))
-    , bulletAdder(BulletAdder(this))
-    , boundsChecker(BoundsChecker(worldDrawer))
-    , bulletTexture(std::make_shared<sf::Texture>())
-    , asteroidTexture(std::make_shared<sf::Texture>())
-    , spaceshipTexture(std::make_shared<sf::Texture>())
-    , ufoTexture(std::make_shared<sf::Texture>())
-    , spaceship(NULL)
-    , objectsToAdd(std::vector<std::shared_ptr<DrawableObject>>())
+    , bulletAdder{this}
+    , boundsChecker{worldDrawer}
+    , bulletTexture{std::make_shared<sf::Texture>()}
+    , asteroidTexture{std::make_shared<sf::Texture>()}
+    , spaceshipTexture{std::make_shared<sf::Texture>()}
+    , ufoTexture{std::make_shared<sf::Texture>()}
+    , spaceship{nullptr}
+    // default-construct objectsToAdd
 {
     srand(time(NULL));
     
