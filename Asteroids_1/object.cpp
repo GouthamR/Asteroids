@@ -53,7 +53,7 @@ void Object::setVelocityPolar(const double &speed, const double &angle)
     velocity.setTheta(angle);
 }
 
-void Object::setVelocity(const Phys::Vector newVelocity)
+void Object::setVelocity(const Phys::Vector &newVelocity)
 {
     velocity = newVelocity;
 }

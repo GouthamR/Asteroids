@@ -22,7 +22,9 @@ void Spaceship::rotate(const double &angle)
 void Spaceship::accelerate(const double &magnitude)
 {
     Phys::Vector *accel = Phys::Vector::createPolar(magnitude,orientation);
-    setVelocity(getVelocity() += *accel);
+    Phys::Vector newVelocity = getVelocity();
+    newVelocity += *accel;
+    setVelocity(newVelocity);
     delete accel;
 }
 
