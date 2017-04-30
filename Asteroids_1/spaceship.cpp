@@ -40,7 +40,7 @@ void Spaceship::incrementCollisions()
         case 3: color = sf::Color(255, 0, 0); break;
         default: markToDelete(); break;
     }
-    sprite->setColor(color);
+    sprite.setColor(color);
 }
 
 void Spaceship::handleCollision(Object *second)
@@ -98,6 +98,6 @@ bool Spaceship::isColliding(Bullet *first)
 void Spaceship::draw(sf::RenderWindow *window)
 {
     // TODO: orientation does not currently match with sprite
-    sprite->setRotation(-(orientation - Phys::Vector::THETA_QUARTER)/3.14*180); 
+    sprite.setRotation(-(orientation - Phys::Vector::THETA_QUARTER)/3.14*180); 
     DrawableImageObject::draw(window);
 }

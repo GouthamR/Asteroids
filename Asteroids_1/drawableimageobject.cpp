@@ -1,6 +1,5 @@
 #include "drawableimageobject.h"
 
-#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -12,24 +11,18 @@ DrawableImageObject::DrawableImageObject(const double &xPos, const double &yPos,
     : Object(xPos, yPos)
     , DrawableObject(xPos, yPos)
     , texture(texture)
-    , sprite(NULL)
+    , sprite(*texture)
 {
-    sprite = new sf::Sprite(*texture);
     sf::Vector2u texSize = texture->getSize();
-    sprite->setOrigin(texSize.x/2, texSize.y/2);
-    sprite->setScale((float)xSize/texSize.x, (float)ySize/texSize.y);
+    sprite.setOrigin(texSize.x/2, texSize.y/2);
+    sprite.setScale((float)xSize/texSize.x, (float)ySize/texSize.y);
 }
 
-
-DrawableImageObject::~DrawableImageObject()
-{
-    delete sprite;
-}
 
 void DrawableImageObject::draw(sf::RenderWindow *window)
 {
     sf::Vector2f *windowPos = getWindowCoordinatesPosition(window);
-    sprite->setPosition(*windowPos);
+    sprite.setPosition(*windowPos);
     delete windowPos;
-    window->draw(*sprite);
+    window->draw(sprite);
 }
