@@ -94,6 +94,79 @@ bool Game::delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay,
     }
 }
 
+void Game::handleWindowEvents(sf::RenderWindow &window)
+{
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+        {
+            window.close();
+        }
+        else if(event.type == sf::Event::KeyPressed)
+        {
+            controlSpaceship(event.key.code);
+        }
+    }
+}
+
+void Game::updatePhysics(sf::Clock &physClock)
+{
+    float physClockElapsedTime = physClock.getElapsedTime().asSeconds();
+    if(physClockElapsedTime >= 1/PHYS_FRAMES_PER_SECOND)
+    {
+        worldDrawer->updateAll(physClockElapsedTime);
+        physClock.restart();
+    }
+}
+
+void Game::updateDisplay(sf::RenderWindow &window)
+{
+    window.clear();
+    worldDrawer->drawAll(&window);
+    window.display();
+}
+
+void Game::sleepUntilNextFrame(sf::Clock &frameRateClock)
+{
+    float frameRateClockElapsed = frameRateClock.getElapsedTime().asSeconds();
+    sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - frameRateClockElapsed);
+    if(sleepTime.asSeconds() > 0)
+        sf::sleep(sleepTime);
+}
+
+void Game::updateObjectsToAdd(const sf::Clock &timeElapsedClock, bool &toAddAsteroid,
+                                bool &toAddUfo)
+{
+    if(delayedAdd(timeElapsedClock, ASTEROID_ADD_DELAY, toAddAsteroid))
+    {
+        std::cout << "Adding Asteroid" << std::endl;
+        objectsToAdd.push_back(createAsteroid(asteroidTexture));            
+    }
+    if(delayedAdd(timeElapsedClock, UFO_ADD_DELAY, toAddUfo))
+    {
+        std::cout << "Adding Ufo" << std::endl;
+        objectsToAdd.push_back(createUfo(ufoTexture));
+    }
+}
+
+void Game::addFromObjectsToAdd()
+{
+    auto addFn = [&](std::shared_ptr<DrawableObject> obj){ worldDrawer->add(obj); };
+    std::for_each(objectsToAdd.begin(), objectsToAdd.end(), addFn);
+    
+    objectsToAdd.clear();
+}
+
+void Game::addInitialObjects()
+{
+    worldDrawer->add(spaceship);
+    for (int i = 0; i < INIT_NUM_ASTEROIDS; ++i)
+    {
+        worldDrawer->add(createAsteroid(asteroidTexture));
+    }
+}
+
 Game::Game()
     : worldDrawer{new DrawableWorld{3, (int)WINDOW_WIDTH, (int)WINDOW_HEIGHT, true}}
     , bulletAdder{this}
@@ -137,12 +210,8 @@ void Game::run()
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Goutham R's Asteroids");
     window.setFramerateLimit(FRAMES_PER_SECOND);
 
-    worldDrawer->add(spaceship);
-    for (int i = 0; i < INIT_NUM_ASTEROIDS; ++i)
-    {
-        worldDrawer->add(createAsteroid(asteroidTexture));
-    }
-
+    addInitialObjects();
+    
     // false, so will not add at beginning:
     bool toAddAsteroid = false;
     bool toAddUfo = false;
@@ -150,54 +219,13 @@ void Game::run()
     sf::Clock frameRateClock, physClock, timeElapsedClock; // starts all timers
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            else if(event.type == sf::Event::KeyPressed)
-            {
-                controlSpaceship(event.key.code);
-            }
-        }
-
-        float physClockElapsedTime = physClock.getElapsedTime().asSeconds();
-        if(physClockElapsedTime >= 1/PHYS_FRAMES_PER_SECOND)
-        {
-            worldDrawer->updateAll(physClockElapsedTime);
-            physClock.restart();
-        }
-
-        window.clear();
-        worldDrawer->drawAll(&window);
-        window.display();
-
-        float frameRateClockElapsed = frameRateClock.getElapsedTime().asSeconds();
-        sf::Time sleepTime = sf::seconds (1/FRAMES_PER_SECOND - frameRateClockElapsed);
-        if(sleepTime.asSeconds() > 0)
-            sf::sleep(sleepTime);
-
-        if(delayedAdd(timeElapsedClock, ASTEROID_ADD_DELAY, toAddAsteroid))
-        {
-            std::cout << "Adding Asteroid" << std::endl;
-            objectsToAdd.push_back(createAsteroid(asteroidTexture));            
-        }
-        if(delayedAdd(timeElapsedClock, UFO_ADD_DELAY, toAddUfo))
-        {
-            std::cout << "Adding Ufo" << std::endl;
-            objectsToAdd.push_back(createUfo(ufoTexture));
-        }
-
-        for(auto iter = objectsToAdd.begin(); iter != objectsToAdd.end(); ++iter)
-        {
-            worldDrawer->add(*iter);
-        }
-        objectsToAdd.clear();
-
+        handleWindowEvents(window);
+        updatePhysics(physClock);
+        updateDisplay(window);
+        sleepUntilNextFrame(frameRateClock);
+        updateObjectsToAdd(timeElapsedClock, toAddAsteroid, toAddUfo);
+        addFromObjectsToAdd();
         worldDrawer->deleteMarked();
-
         frameRateClock.restart();
     }
 

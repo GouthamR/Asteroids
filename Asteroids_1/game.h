@@ -49,6 +49,14 @@ private:
 	void controlSpaceship(const sf::Keyboard::Key &key_code);
 	bool delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay, 
 					bool &toAddThisCycle);
+	void handleWindowEvents(sf::RenderWindow &window);
+	void updatePhysics(sf::Clock &physClock);
+	void updateDisplay(sf::RenderWindow &window);
+	void sleepUntilNextFrame(sf::Clock &frameRateClock);
+	void updateObjectsToAdd(const sf::Clock &timeElapsedClock, bool &toAddAsteroid,
+							bool &toAddUfo);
+	void addFromObjectsToAdd();
+	void addInitialObjects();
 public:
 	Game();
 	void addBullet(const double &xPos, const double &yPos);
