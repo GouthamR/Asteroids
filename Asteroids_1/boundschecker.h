@@ -7,9 +7,9 @@ class Object;
 class BoundsChecker
 {
 private:
-	World *world;
+	const World * const world;
 public:
-	BoundsChecker(World *world);
+	BoundsChecker(const World * const world);
 	bool isOutOfBounds(Object *obj);
 };
 

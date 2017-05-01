@@ -20,7 +20,7 @@ public:
     World(const int &numObjects, const int &width, const int &height, bool wrap);
     virtual ~World();
     void updateAll(float elapsedTimeSeconds);
-    bool isOutOfBounds(Object *obj);
+    bool isOutOfBounds(Object *obj) const;
 };
 
 #endif // WORLD_H

@@ -69,7 +69,7 @@ void World::updateAll(float elapsedTimeSeconds)
     }
 }
 
-bool World::isOutOfBounds(Object *obj)
+bool World::isOutOfBounds(Object *obj) const
 {
     double x = obj->getX();
     double y = obj->getY();

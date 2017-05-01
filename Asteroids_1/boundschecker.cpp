@@ -2,7 +2,7 @@
 
 #include "world.h"
 
-BoundsChecker::BoundsChecker(World *world)
+BoundsChecker::BoundsChecker(const World * const world)
 	: world{world}
 {}
 
