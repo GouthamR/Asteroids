@@ -95,9 +95,9 @@ bool Game::delayedAdd(const sf::Clock &timeElapsedClock, const float &add_delay,
 }
 
 Game::Game()
-    : worldDrawer(new DrawableWorld(3, WINDOW_WIDTH, WINDOW_HEIGHT, true))
+    : worldDrawer{new DrawableWorld{3, (int)WINDOW_WIDTH, (int)WINDOW_HEIGHT, true}}
     , bulletAdder{this}
-    , boundsChecker{worldDrawer}
+    , boundsChecker{worldDrawer.get()}
     , bulletTexture{std::make_shared<sf::Texture>()}
     , asteroidTexture{std::make_shared<sf::Texture>()}
     , spaceshipTexture{std::make_shared<sf::Texture>()}
@@ -120,11 +120,6 @@ Game::Game()
     spaceship = std::make_shared<Spaceship>(WINDOW_WIDTH/2, WINDOW_WIDTH/2, 
                                             WINDOW_WIDTH/40, spaceshipTexture);
     spaceship->setVelocityPolar(0, Phys::Vector::THETA_UP);
-}
-
-Game::~Game()
-{
-    delete worldDrawer;
 }
 
 void Game::addBullet(const double &xPos, const double &yPos)

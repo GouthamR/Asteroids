@@ -10,8 +10,8 @@
 
 #include "bulletadder.h"
 #include "boundschecker.h"
+#include "drawableworld.h"
 
-class DrawableWorld;
 class Spaceship;
 class DrawableObject;
 class Object;
@@ -32,7 +32,8 @@ private:
 	const static float UFO_ADD_DELAY;
 	const static int INIT_NUM_ASTEROIDS;
 	const static float ADD_DELAY_MARGIN;
-	DrawableWorld *worldDrawer;
+	
+	std::unique_ptr<DrawableWorld> worldDrawer; // Note: dynamically allocated to avoid storing large data structures on the stack
 	BulletAdder bulletAdder;
 	BoundsChecker boundsChecker;
 	std::shared_ptr<sf::Texture> bulletTexture;
@@ -41,6 +42,7 @@ private:
 	std::shared_ptr<sf::Texture> ufoTexture;
 	std::shared_ptr<Spaceship> spaceship;
 	std::vector<std::shared_ptr<DrawableObject>> objectsToAdd;
+	
 	int getRandInt(const int &min, const int &max);
 	std::shared_ptr<Asteroid> createAsteroid(const std::shared_ptr<sf::Texture> &asteroidTexture);
 	std::shared_ptr<Ufo> createUfo(const std::shared_ptr<sf::Texture> &ufoTexture);
@@ -49,7 +51,6 @@ private:
 					bool &toAddThisCycle);
 public:
 	Game();
-	~Game();
 	void addBullet(const double &xPos, const double &yPos);
 	void run();
 };
